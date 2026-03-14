@@ -122,3 +122,13 @@ D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0
 D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+D:\My\Books Management System\Books Management System\BooksAPI\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
+D:\My\Books Management System\Books Management System\BooksAPI\obj\Debug\net10.0\BooksAPI.sourcelink.json
