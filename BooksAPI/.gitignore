@@ -1,0 +1,39 @@
+# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+project.assets.json
+project.nuget.cache
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+appsettings.Production.json
+appsettings.json
+.env
+
+# Node (for your Angular frontend if inside repo)
+node_modules/
+dist/
+
+# Temporary files
+*.tmp
+*.temp
