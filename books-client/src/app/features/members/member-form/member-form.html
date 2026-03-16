@@ -1,0 +1,59 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <button mat-icon-button routerLink="/members">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>{{ isEditing ? '✏️ Edit Member' : '➕ Add New Member' }}</h2>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Full Name</mat-label>
+            <input matInput [(ngModel)]="formData.fullName"
+                   name="fullName" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="formData.email"
+                   name="email" required />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Phone</mat-label>
+            <input matInput [(ngModel)]="formData.phone"
+                   name="phone" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Address</mat-label>
+            <input matInput [(ngModel)]="formData.address"
+                   name="address" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row" *ngIf="isEditing">
+          <mat-checkbox [(ngModel)]="isActive" name="isActive">
+            Active Member
+          </mat-checkbox>
+        </div>
+
+        <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+        <div class="form-actions">
+          <button mat-button type="button" routerLink="/members">Cancel</button>
+          <button mat-raised-button color="primary" type="submit">
+            {{ isEditing ? 'Update Member' : 'Add Member' }}
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

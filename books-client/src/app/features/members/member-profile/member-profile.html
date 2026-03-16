@@ -1,0 +1,84 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <button mat-icon-button routerLink="/members">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>👤 Member Profile</h2>
+  </div>
+
+  <div class="profile-grid" *ngIf="member">
+
+    <!-- Member Info Card -->
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="avatar">
+          <mat-icon class="avatar-icon">account_circle</mat-icon>
+        </div>
+        <h3 class="member-name">{{ member.fullName }}</h3>
+        <span class="status-badge"
+          [ngClass]="member.isActive ? 'badge-active' : 'badge-inactive'">
+          {{ member.isActive ? 'Active' : 'Inactive' }}
+        </span>
+
+        <div class="info-list">
+          <div class="info-item">
+            <mat-icon>email</mat-icon>
+            <span>{{ member.email }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>phone</mat-icon>
+            <span>{{ member.phone }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ member.address ?? 'No address' }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span>Joined {{ member.registeredAt | date: 'yyyy-MM-dd' }}</span>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button mat-raised-button color="accent"
+                  [routerLink]="['/members/edit', member.id]">
+            <mat-icon>edit</mat-icon> Edit
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Stats Card -->
+    <mat-card class="stats-card">
+      <mat-card-content>
+        <h3 class="section-title">📊 Summary</h3>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <p class="stat-num">0</p>
+            <p class="stat-label">Total Borrowed</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-num">0</p>
+            <p class="stat-label">Currently Borrowed</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-num">0</p>
+            <p class="stat-label">Overdue</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-num">$0</p>
+            <p class="stat-label">Pending Fines</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <mat-card *ngIf="!member">
+    <mat-card-content>
+      <p class="not-found">Member not found.</p>
+    </mat-card-content>
+  </mat-card>
+
+</div>
