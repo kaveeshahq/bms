@@ -20,6 +20,11 @@ export class MemberService {
     return this.http.get<Member>(`${this.apiUrl}/${id}`);
   }
 
+  // Lookup by 6-digit MemberId string
+  getByMemberId(memberId: string) {
+    return this.http.get<Member>(`${this.apiUrl}/lookup/${memberId}`);
+  }
+
   create(dto: CreateMemberDto) {
     return this.http.post<Member>(this.apiUrl, dto);
   }

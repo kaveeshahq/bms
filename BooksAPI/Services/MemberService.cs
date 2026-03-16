@@ -24,12 +24,14 @@ namespace BooksAPI.Services
                 query = query.Where(m =>
                     m.FullName.ToLower().Contains(search) ||
                     m.Email.ToLower().Contains(search) ||
-                    m.Phone.Contains(search));
+                    m.Phone.Contains(search) ||
+                    m.MemberId.Contains(search));
             }
 
             return await query.Select(m => new MemberDto
             {
                 Id = m.Id,
+                MemberId = m.MemberId,
                 FullName = m.FullName,
                 Email = m.Email,
                 Phone = m.Phone,
@@ -47,6 +49,27 @@ namespace BooksAPI.Services
             return new MemberDto
             {
                 Id = m.Id,
+                MemberId = m.MemberId,
+                FullName = m.FullName,
+                Email = m.Email,
+                Phone = m.Phone,
+                Address = m.Address,
+                RegisteredAt = m.RegisteredAt,
+                IsActive = m.IsActive
+            };
+        }
+
+        // Find by 6-digit MemberId string
+        public async Task<MemberDto?> GetByMemberIdAsync(string memberId)
+        {
+            var m = await _context.Members
+                .FirstOrDefaultAsync(x => x.MemberId == memberId);
+            if (m == null) return null;
+
+            return new MemberDto
+            {
+                Id = m.Id,
+                MemberId = m.MemberId,
                 FullName = m.FullName,
                 Email = m.Email,
                 Phone = m.Phone,
@@ -58,8 +81,15 @@ namespace BooksAPI.Services
 
         public async Task<MemberDto> CreateAsync(CreateMemberDto dto)
         {
+            // Check MemberId is unique
+            var exists = await _context.Members
+                .AnyAsync(m => m.MemberId == dto.MemberId);
+            if (exists)
+                throw new Exception("Member ID already exists");
+
             var member = new Member
             {
+                MemberId = dto.MemberId,
                 FullName = dto.FullName,
                 Email = dto.Email,
                 Phone = dto.Phone,
@@ -80,6 +110,7 @@ namespace BooksAPI.Services
             var member = await _context.Members.FindAsync(id);
             if (member == null) return false;
 
+            member.MemberId = dto.MemberId;
             member.FullName = dto.FullName;
             member.Email = dto.Email;
             member.Phone = dto.Phone;

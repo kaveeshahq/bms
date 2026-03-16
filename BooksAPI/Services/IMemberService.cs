@@ -6,6 +6,7 @@ namespace BooksAPI.Services
     {
         Task<List<MemberDto>> GetAllAsync(string? search);
         Task<MemberDto?> GetByIdAsync(int id);
+        Task<MemberDto?> GetByMemberIdAsync(string memberId);
         Task<MemberDto> CreateAsync(CreateMemberDto dto);
         Task<bool> UpdateAsync(int id, UpdateMemberDto dto);
         Task<bool> DeleteAsync(int id);

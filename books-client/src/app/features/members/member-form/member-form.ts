@@ -34,12 +34,13 @@ export class MemberForm implements OnInit {
   errorMessage = '';
   isActive = true;
 
-  formData: CreateMemberDto = {
-    fullName: '',
-    email: '',
-    phone: '',
-    address: ''
-  };
+formData: CreateMemberDto = {
+  memberId: '',
+  fullName: '',
+  email: '',
+  phone: '',
+  address: ''
+};
 
   constructor(
     private memberService: MemberService,
@@ -55,15 +56,16 @@ export class MemberForm implements OnInit {
     if (this.memberId) {
       this.isEditing = true;
       this.memberService.getById(this.memberId).subscribe({
-        next: (member) => {
-          this.formData = {
-            fullName: member.fullName,
-            email: member.email,
-            phone: member.phone,
-            address: member.address ?? ''
-          };
-          this.isActive = member.isActive;
-        },
+    next: (member) => {
+  this.formData = {
+    memberId: member.memberId,
+    fullName: member.fullName,
+    email: member.email,
+    phone: member.phone,
+    address: member.address ?? ''
+  };
+  this.isActive = member.isActive;
+},
         error: (err) => console.error('Error loading member', err)
       });
     }

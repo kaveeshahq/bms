@@ -1,5 +1,6 @@
 export interface Member {
   id: number;
+  memberId: string;
   fullName: string;
   email: string;
   phone: string;
@@ -9,6 +10,7 @@ export interface Member {
 }
 
 export interface CreateMemberDto {
+  memberId: string;
   fullName: string;
   email: string;
   phone: string;
@@ -16,6 +18,7 @@ export interface CreateMemberDto {
 }
 
 export interface UpdateMemberDto {
+  memberId: string;
   fullName: string;
   email: string;
   phone: string;

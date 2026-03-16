@@ -36,14 +36,15 @@ export class BookForm implements OnInit {
   errorMessage = '';
   categories: Category[] = [];
 
-  formData: CreateBookDto = {
-    title: '',
-    author: '',
-    isbn: '',
-    publisher: '',
-    publishedYear: undefined,
-    categoryId: 0
-  };
+formData: CreateBookDto = {
+  bookId: '',
+  title: '',
+  author: '',
+  isbn: '',
+  publisher: '',
+  publishedYear: undefined,
+  categoryId: 0
+};
 
   constructor(
     private bookService: BookService,
@@ -65,16 +66,17 @@ export class BookForm implements OnInit {
     if (this.bookId) {
       this.isEditing = true;
       this.bookService.getById(this.bookId).subscribe({
-        next: (book) => {
-          this.formData = {
-            title: book.title,
-            author: book.author,
-            isbn: book.isbn,
-            publisher: book.publisher ?? '',
-            publishedYear: book.publishedYear,
-            categoryId: book.categoryId
-          };
-        },
+ next: (book) => {
+  this.formData = {
+    bookId: book.bookId,
+    title: book.title,
+    author: book.author,
+    isbn: book.isbn,
+    publisher: book.publisher ?? '',
+    publishedYear: book.publishedYear,
+    categoryId: book.categoryId
+  };
+},
         error: (err) => console.error('Error loading book', err)
       });
     }

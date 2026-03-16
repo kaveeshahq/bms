@@ -10,31 +10,84 @@
     <mat-card-content>
       <form (ngSubmit)="onSubmit()">
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Select Book</mat-label>
-          <mat-select [(ngModel)]="formData.bookId" name="bookId" required>
-            <mat-option *ngFor="let book of availableBooks" [value]="book.id">
-              {{ book.title }} — {{ book.author }}
-            </mat-option>
-          </mat-select>
-          <mat-hint>Only available books shown</mat-hint>
-        </mat-form-field>
+        <!-- Step 1: Member ID lookup -->
+        <div class="section-title">Step 1 — Enter Member ID</div>
+        <div class="lookup-row">
+          <mat-form-field appearance="outline" class="lookup-field">
+            <mat-label>Member ID</mat-label>
+            <input matInput [(ngModel)]="memberIdInput"
+                   name="memberIdInput"
+                   placeholder="e.g. 100001"
+                   maxlength="6" />
+          </mat-form-field>
+          <button mat-raised-button color="primary"
+                  type="button"
+                  (click)="lookupMember()">
+            Find Member
+          </button>
+        </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Select Member</mat-label>
-          <mat-select [(ngModel)]="formData.memberId" name="memberId" required>
-            <mat-option *ngFor="let member of members" [value]="member.id">
-              {{ member.fullName }} — {{ member.email }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <!-- Member Details Card -->
+        <div class="detail-card" *ngIf="foundMember">
+          <mat-icon class="detail-icon member-icon">person</mat-icon>
+          <div class="detail-info">
+            <p class="detail-name">{{ foundMember.fullName }}</p>
+            <p class="detail-sub">{{ foundMember.email }}</p>
+            <p class="detail-sub">{{ foundMember.phone }}</p>
+            <span class="status-badge"
+              [ngClass]="foundMember.isActive ? 'badge-active' : 'badge-inactive'">
+              {{ foundMember.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+        </div>
+        <p class="error-msg" *ngIf="memberError">{{ memberError }}</p>
 
-        <mat-form-field appearance="outline" class="full-width">
+        <!-- Step 2: Book ID lookup -->
+        <div class="section-title" style="margin-top: 24px;">
+          Step 2 — Enter Book ID
+        </div>
+        <div class="lookup-row">
+          <mat-form-field appearance="outline" class="lookup-field">
+            <mat-label>Book ID</mat-label>
+            <input matInput [(ngModel)]="bookIdInput"
+                   name="bookIdInput"
+                   placeholder="e.g. BK0001" />
+          </mat-form-field>
+          <button mat-raised-button color="primary"
+                  type="button"
+                  (click)="lookupBook()">
+            Find Book
+          </button>
+        </div>
+
+        <!-- Book Details Card -->
+        <div class="detail-card" *ngIf="foundBook">
+          <mat-icon class="detail-icon book-icon">menu_book</mat-icon>
+          <div class="detail-info">
+            <p class="detail-name">{{ foundBook.title }}</p>
+            <p class="detail-sub">{{ foundBook.author }}</p>
+            <p class="detail-sub">ISBN: {{ foundBook.isbn }}</p>
+            <span class="status-badge"
+              [ngClass]="{
+                'badge-available': foundBook.status === 'Available',
+                'badge-issued': foundBook.status === 'Issued'
+              }">
+              {{ foundBook.status }}
+            </span>
+          </div>
+        </div>
+        <p class="error-msg" *ngIf="bookError">{{ bookError }}</p>
+
+        <!-- Step 3: Due days -->
+        <div class="section-title" style="margin-top: 24px;">
+          Step 3 — Set Due Days
+        </div>
+        <mat-form-field appearance="outline" style="width: 200px;">
           <mat-label>Due Days</mat-label>
           <input matInput type="number"
-                 [(ngModel)]="formData.dueDays"
+                 [(ngModel)]="dueDays"
                  name="dueDays" required />
-          <mat-hint>Default is 14 days</mat-hint>
+          <mat-hint>Default 14 days</mat-hint>
         </mat-form-field>
 
         <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
@@ -42,7 +95,9 @@
 
         <div class="form-actions">
           <button mat-button type="button" routerLink="/borrowings">Cancel</button>
-          <button mat-raised-button color="primary" type="submit">
+          <button mat-raised-button color="primary"
+                  type="submit"
+                  [disabled]="!foundMember || !foundBook || foundBook.status !== 'Available'">
             Issue Book
           </button>
         </div>

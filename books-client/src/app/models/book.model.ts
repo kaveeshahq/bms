@@ -1,5 +1,6 @@
 export interface Book {
   id: number;
+  bookId: string;
   title: string;
   author: string;
   isbn: string;
@@ -11,6 +12,7 @@ export interface Book {
 }
 
 export interface CreateBookDto {
+  bookId: string;
   title: string;
   author: string;
   isbn: string;
@@ -20,6 +22,7 @@ export interface CreateBookDto {
 }
 
 export interface UpdateBookDto {
+  bookId: string;
   title: string;
   author: string;
   isbn: string;

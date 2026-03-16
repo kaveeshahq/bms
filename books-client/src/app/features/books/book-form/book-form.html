@@ -10,6 +10,14 @@
     <mat-card-content>
       <form (ngSubmit)="onSubmit()">
 
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Book ID</mat-label>
+          <input matInput [(ngModel)]="formData.bookId"
+                 name="bookId" required
+                 placeholder="e.g. BK0001" />
+          <mat-hint>Unique ID printed on the book</mat-hint>
+        </mat-form-field>
+
         <div class="form-row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Title</mat-label>

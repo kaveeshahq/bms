@@ -3,6 +3,7 @@ namespace BooksAPI.DTOs
     public class MemberDto
     {
         public int Id { get; set; }
+        public string MemberId { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
@@ -13,6 +14,7 @@ namespace BooksAPI.DTOs
 
     public class CreateMemberDto
     {
+        public string MemberId { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
@@ -21,6 +23,7 @@ namespace BooksAPI.DTOs
 
     public class UpdateMemberDto
     {
+        public string MemberId { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;

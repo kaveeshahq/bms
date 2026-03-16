@@ -59,5 +59,14 @@ namespace BooksAPI.Controllers
             if (!result) return NotFound();
             return NoContent();
         }
+
+        // GET: api/members/lookup/100001
+        [HttpGet("lookup/{memberId}")]
+        public async Task<IActionResult> GetByMemberId(string memberId)
+        {
+            var member = await _memberService.GetByMemberIdAsync(memberId);
+            if (member == null) return NotFound();
+            return Ok(member);
+        }
     }
 }

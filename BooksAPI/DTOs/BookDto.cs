@@ -3,6 +3,7 @@ namespace BooksAPI.DTOs
     public class BookDto
     {
         public int Id { get; set; }
+        public string BookId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
         public string ISBN { get; set; } = string.Empty;
@@ -15,6 +16,7 @@ namespace BooksAPI.DTOs
 
     public class CreateBookDto
     {
+        public string BookId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
         public string ISBN { get; set; } = string.Empty;
@@ -25,6 +27,7 @@ namespace BooksAPI.DTOs
 
     public class UpdateBookDto
     {
+        public string BookId { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
         public string ISBN { get; set; } = string.Empty;
