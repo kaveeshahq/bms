@@ -1,0 +1,49 @@
+.page-wrapper {
+  padding: 24px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.full-width { width: 100%; }
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-active   { background-color: #e3f2fd; color: #1565c0; }
+.badge-returned { background-color: #e8f5e9; color: #2e7d32; }
+.badge-overdue  { background-color: #ffebee; color: #c62828; }
+
+.fine-badge {
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.fine-paid   { background-color: #e8f5e9; color: #2e7d32; }
+.fine-unpaid { background-color: #ffebee; color: #c62828; }
+
+.no-fine { color: #bbb; }
+
+.no-data {
+  text-align: center;
+  padding: 32px;
+  color: #999;
+}

@@ -43,6 +43,9 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<JwtHelper>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IMemberService, MemberService>();
+builder.Services.AddScoped<IBorrowingService, BorrowingService>();
+builder.Services.AddScoped<IFineService, FineService>();
+
 // CORS for Angular
 builder.Services.AddCors(options =>
 {

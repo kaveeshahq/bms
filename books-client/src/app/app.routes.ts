@@ -66,4 +66,25 @@ export const routes: Routes = [
   loadComponent: () =>
     import('./features/members/member-profile/member-profile').then(m => m.MemberProfile)
 },
+{
+  path: 'borrowings',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/borrowings/borrowing-list/borrowing-list')
+      .then(m => m.BorrowingList)
+},
+{
+  path: 'borrowings/issue',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/borrowings/issue-book/issue-book')
+      .then(m => m.IssueBook)
+},
+{
+  path: 'fines',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/fines/fine-list/fine-list')
+      .then(m => m.FineList)
+},
 ];
