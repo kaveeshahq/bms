@@ -36,7 +36,7 @@ export class BookDetail implements OnInit {
     this.bookService.getById(id).subscribe({
       next: (data) => {
         this.book = data;
-        this.cdr.markForCheck(); // ← tell Angular to re-render
+        this.cdr.markForCheck(); 
       },
       error: (err) => console.error('Error loading book', err)
     });

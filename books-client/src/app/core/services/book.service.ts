@@ -20,7 +20,6 @@ export class BookService {
     return this.http.get<Book>(`${this.apiUrl}/${id}`);
   }
 
-  // Lookup by BookId string (e.g. BK0001)
   getByBookId(bookId: string) {
     return this.http.get<Book>(`${this.apiUrl}/lookup/${bookId}`);
   }

@@ -64,9 +64,7 @@
         <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
 
         <div class="form-actions">
-       <!-- Cancel button -->
 <button mat-button type="button" routerLink="/books" class="cancel-btn">Cancel</button>
-<!-- Submit button -->
 <button mat-raised-button class="submit-btn" type="submit">
   {{ isEditing ? 'Update Book' : 'Add Book' }}
 </button>

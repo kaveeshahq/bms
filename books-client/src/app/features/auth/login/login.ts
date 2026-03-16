@@ -33,16 +33,12 @@ export class Login {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    // Clear previous error
     this.errorMessage = '';
 
-    // Call the backend
     this.authService.login({ email: this.email, password: this.password })
       .subscribe({
         next: (response) => {
-          // Save token and user info
           this.authService.saveToken(response.token, response.email, response.role);
-          // Go to dashboard
           this.router.navigate(['/dashboard']);
         },
         error: () => {
