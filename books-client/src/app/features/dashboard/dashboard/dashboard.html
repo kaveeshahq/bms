@@ -1,91 +1,45 @@
-<div class="dashboard-wrapper">
+<div class="dashboard-content">
+  <h2>Welcome back, {{ userEmail }} 👋</h2>
 
-  <!-- Top Navbar -->
-  <mat-toolbar color="primary">
-    <span>📚 Library Management System</span>
-    <span class="spacer"></span>
-    <span class="user-email">{{ userEmail }}</span>
-    <button mat-icon-button (click)="logout()" matTooltip="Logout">
-      <mat-icon>logout</mat-icon>
-    </button>
-  </mat-toolbar>
+  <div class="stats-grid">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon books-icon">menu_book</mat-icon>
+        <div class="stat-info">
+          <p class="stat-label">Total Books</p>
+          <p class="stat-number">{{ totalBooks }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-  <!-- Side Nav + Content -->
-  <mat-sidenav-container class="sidenav-container">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon members-icon">people</mat-icon>
+        <div class="stat-info">
+          <p class="stat-label">Total Members</p>
+          <p class="stat-number">{{ totalMembers }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-    <mat-sidenav mode="side" opened class="sidenav">
-      <mat-nav-list>
-        <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
-          <mat-icon matListItemIcon>dashboard</mat-icon>
-          <span matListItemTitle>Dashboard</span>
-        </a>
-        <a mat-list-item routerLink="/books" routerLinkActive="active-link">
-          <mat-icon matListItemIcon>menu_book</mat-icon>
-          <span matListItemTitle>Books</span>
-        </a>
-        <a mat-list-item routerLink="/members" routerLinkActive="active-link">
-          <mat-icon matListItemIcon>people</mat-icon>
-          <span matListItemTitle>Members</span>
-        </a>
-        <a mat-list-item routerLink="/borrowings" routerLinkActive="active-link">
-          <mat-icon matListItemIcon>swap_horiz</mat-icon>
-          <span matListItemTitle>Borrowings</span>
-        </a>
-        <a mat-list-item routerLink="/fines" routerLinkActive="active-link">
-          <mat-icon matListItemIcon>payments</mat-icon>
-          <span matListItemTitle>Fines</span>
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon borrowings-icon">swap_horiz</mat-icon>
+        <div class="stat-info">
+          <p class="stat-label">Active Borrowings</p>
+          <p class="stat-number">{{ activeBorrowings }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-    <!-- Main Content -->
-    <mat-sidenav-content class="main-content">
-      <h2>Welcome back, {{ userEmail }} 👋</h2>
-
-      <!-- Stats Cards -->
-   <div class="stats-grid">
-  <mat-card class="stat-card">
-    <mat-card-content>
-      <mat-icon class="stat-icon books-icon">menu_book</mat-icon>
-      <div class="stat-info">
-        <p class="stat-label">Total Books</p>
-        <p class="stat-number">{{ totalBooks }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card class="stat-card">
-    <mat-card-content>
-      <mat-icon class="stat-icon members-icon">people</mat-icon>
-      <div class="stat-info">
-        <p class="stat-label">Total Members</p>
-        <p class="stat-number">{{ totalMembers }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card class="stat-card">
-    <mat-card-content>
-      <mat-icon class="stat-icon borrowings-icon">swap_horiz</mat-icon>
-      <div class="stat-info">
-        <p class="stat-label">Active Borrowings</p>
-        <p class="stat-number">{{ activeBorrowings }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card class="stat-card">
-    <mat-card-content>
-      <mat-icon class="stat-icon fines-icon">payments</mat-icon>
-      <div class="stat-info">
-        <p class="stat-label">Pending Fines</p>
-        <p class="stat-number">{{ pendingFines }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
-
-    </mat-sidenav-content>
-
-  </mat-sidenav-container>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon fines-icon">payments</mat-icon>
+        <div class="stat-info">
+          <p class="stat-label">Pending Fines</p>
+          <p class="stat-number">{{ pendingFines }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

@@ -1,30 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    RouterLink,
-    RouterLinkActive,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
     MatCardModule,
-    MatTooltipModule
+    MatIconModule
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
@@ -38,7 +26,8 @@ export class Dashboard implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {
     this.userEmail = this.authService.getEmail() ?? 'User';
   }
@@ -55,12 +44,9 @@ export class Dashboard implements OnInit {
           this.totalMembers = data.totalMembers;
           this.activeBorrowings = data.activeBorrowings;
           this.pendingFines = data.pendingFines;
+          this.cdr.markForCheck(); // ← tell Angular to re-render
         },
         error: (err) => console.error('Error loading stats', err)
       });
-  }
-
-  logout() {
-    this.authService.logout();
   }
 }
