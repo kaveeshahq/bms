@@ -1,6 +1,7 @@
 using System.Text;
 using BooksAPI.Data;
 using BooksAPI.Helpers;
+using BooksAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ builder.Services.AddAuthentication(options =>
 
 // Register JwtHelper
 builder.Services.AddScoped<JwtHelper>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 // CORS for Angular
 builder.Services.AddCors(options =>

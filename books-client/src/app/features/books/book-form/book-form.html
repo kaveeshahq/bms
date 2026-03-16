@@ -1,0 +1,68 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <button mat-icon-button routerLink="/books">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>{{ isEditing ? '✏️ Edit Book' : '➕ Add New Book' }}</h2>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Title</mat-label>
+            <input matInput [(ngModel)]="formData.title" name="title" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Author</mat-label>
+            <input matInput [(ngModel)]="formData.author" name="author" required />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>ISBN</mat-label>
+            <input matInput [(ngModel)]="formData.isbn" name="isbn" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Publisher</mat-label>
+            <input matInput [(ngModel)]="formData.publisher" name="publisher" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Published Year</mat-label>
+            <input matInput type="number"
+                   [(ngModel)]="formData.publishedYear"
+                   name="publishedYear" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="formData.categoryId"
+                        name="categoryId" required>
+              <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                {{ cat.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+        <div class="form-actions">
+          <button mat-button type="button" routerLink="/books">Cancel</button>
+          <button mat-raised-button color="primary" type="submit">
+            {{ isEditing ? 'Update Book' : 'Add Book' }}
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

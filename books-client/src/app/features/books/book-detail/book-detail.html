@@ -1,0 +1,70 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <button mat-icon-button routerLink="/books">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2>📖 Book Details</h2>
+  </div>
+
+  <mat-card class="detail-card" *ngIf="book">
+    <mat-card-content>
+
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">Title</span>
+          <span class="value">{{ book.title }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Author</span>
+          <span class="value">{{ book.author }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">ISBN</span>
+          <span class="value">{{ book.isbn }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Publisher</span>
+          <span class="value">{{ book.publisher ?? 'N/A' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Published Year</span>
+          <span class="value">{{ book.publishedYear ?? 'N/A' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Category</span>
+          <span class="value">{{ book.categoryName }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Status</span>
+          <span class="status-badge"
+            [ngClass]="{
+              'badge-available': book.status === 'Available',
+              'badge-issued': book.status === 'Issued',
+              'badge-reserved': book.status === 'Reserved'
+            }">
+            {{ book.status }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <button mat-raised-button color="accent"
+                [routerLink]="['/books/edit', book.id]">
+          <mat-icon>edit</mat-icon> Edit Book
+        </button>
+        <button mat-raised-button color="warn"
+                (click)="deleteBook()">
+          <mat-icon>delete</mat-icon> Delete Book
+        </button>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="!book" class="detail-card">
+    <mat-card-content>
+      <p class="not-found">Book not found.</p>
+    </mat-card-content>
+  </mat-card>
+
+</div>
