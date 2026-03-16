@@ -43,47 +43,47 @@
       <h2>Welcome back, {{ userEmail }} 👋</h2>
 
       <!-- Stats Cards -->
-      <div class="stats-grid">
-        <mat-card class="stat-card">
-          <mat-card-content>
-            <mat-icon class="stat-icon books-icon">menu_book</mat-icon>
-            <div class="stat-info">
-              <p class="stat-label">Total Books</p>
-              <p class="stat-number">0</p>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="stat-card">
-          <mat-card-content>
-            <mat-icon class="stat-icon members-icon">people</mat-icon>
-            <div class="stat-info">
-              <p class="stat-label">Total Members</p>
-              <p class="stat-number">0</p>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="stat-card">
-          <mat-card-content>
-            <mat-icon class="stat-icon borrowings-icon">swap_horiz</mat-icon>
-            <div class="stat-info">
-              <p class="stat-label">Active Borrowings</p>
-              <p class="stat-number">0</p>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="stat-card">
-          <mat-card-content>
-            <mat-icon class="stat-icon fines-icon">payments</mat-icon>
-            <div class="stat-info">
-              <p class="stat-label">Pending Fines</p>
-              <p class="stat-number">0</p>
-            </div>
-          </mat-card-content>
-        </mat-card>
+   <div class="stats-grid">
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <mat-icon class="stat-icon books-icon">menu_book</mat-icon>
+      <div class="stat-info">
+        <p class="stat-label">Total Books</p>
+        <p class="stat-number">{{ totalBooks }}</p>
       </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <mat-icon class="stat-icon members-icon">people</mat-icon>
+      <div class="stat-info">
+        <p class="stat-label">Total Members</p>
+        <p class="stat-number">{{ totalMembers }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <mat-icon class="stat-icon borrowings-icon">swap_horiz</mat-icon>
+      <div class="stat-info">
+        <p class="stat-label">Active Borrowings</p>
+        <p class="stat-number">{{ activeBorrowings }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <mat-card-content>
+      <mat-icon class="stat-icon fines-icon">payments</mat-icon>
+      <div class="stat-info">
+        <p class="stat-label">Pending Fines</p>
+        <p class="stat-number">{{ pendingFines }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
 
     </mat-sidenav-content>
 
