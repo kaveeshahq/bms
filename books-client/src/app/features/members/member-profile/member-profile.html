@@ -8,13 +8,13 @@
 
   <div class="profile-grid" *ngIf="member">
 
-    <!-- Member Info Card -->
     <mat-card class="info-card">
       <mat-card-content>
         <div class="avatar">
           <mat-icon class="avatar-icon">account_circle</mat-icon>
         </div>
         <h3 class="member-name">{{ member.fullName }}</h3>
+        <div class="member-id-badge">ID: {{ member.memberId }}</div>
         <span class="status-badge"
           [ngClass]="member.isActive ? 'badge-active' : 'badge-inactive'">
           {{ member.isActive ? 'Active' : 'Inactive' }}
@@ -48,25 +48,24 @@
       </mat-card-content>
     </mat-card>
 
-    <!-- Stats Card -->
     <mat-card class="stats-card">
       <mat-card-content>
         <h3 class="section-title">📊 Summary</h3>
         <div class="stats-grid">
           <div class="stat-box">
-            <p class="stat-num">0</p>
+            <p class="stat-num">{{ totalBorrowed }}</p>
             <p class="stat-label">Total Borrowed</p>
           </div>
           <div class="stat-box">
-            <p class="stat-num">0</p>
+            <p class="stat-num">{{ currentlyBorrowed }}</p>
             <p class="stat-label">Currently Borrowed</p>
           </div>
           <div class="stat-box">
-            <p class="stat-num">0</p>
+            <p class="stat-num">{{ overdue }}</p>
             <p class="stat-label">Overdue</p>
           </div>
           <div class="stat-box">
-            <p class="stat-num">$0</p>
+            <p class="stat-num">${{ pendingFines }}</p>
             <p class="stat-label">Pending Fines</p>
           </div>
         </div>
@@ -80,5 +79,4 @@
       <p class="not-found">Member not found.</p>
     </mat-card-content>
   </mat-card>
-
 </div>

@@ -126,3 +126,14 @@
   color: #999;
   padding: 32px;
 }
+
+.member-id-badge {
+  text-align: center;
+  font-size: 13px;
+  color: #1976d2;
+  background: #e3f2fd;
+  padding: 4px 12px;
+  border-radius: 20px;
+  width: fit-content;
+  margin: 0 auto 8px;
+}
