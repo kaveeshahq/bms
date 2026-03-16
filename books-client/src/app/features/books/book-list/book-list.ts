@@ -34,8 +34,7 @@ import { Book } from '../../../models/book.model';
 export class BookList implements OnInit {
   books: Book[] = [];
   searchTerm = '';
-  displayedColumns = ['title', 'author', 'isbn', 'category', 'status', 'actions'];
-
+displayedColumns = ['bookId', 'title', 'author', 'category', 'status', 'actions'];
   constructor(
     private bookService: BookService,
     private cdr: ChangeDetectorRef

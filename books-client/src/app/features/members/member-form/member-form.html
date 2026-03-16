@@ -1,8 +1,8 @@
 <div class="page-wrapper">
   <div class="page-header">
-    <button mat-icon-button routerLink="/members">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+  <button mat-icon-button routerLink="/books" class="back-btn">
+  <mat-icon>arrow_back</mat-icon>
+</button>
     <h2>{{ isEditing ? '✏️ Edit Member' : '➕ Add New Member' }}</h2>
   </div>
 
@@ -57,10 +57,12 @@
         <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
 
         <div class="form-actions">
-          <button mat-button type="button" routerLink="/members">Cancel</button>
-          <button mat-raised-button color="primary" type="submit">
-            {{ isEditing ? 'Update Member' : 'Add Member' }}
-          </button>
+      <!-- Cancel button -->
+<button mat-button type="button" routerLink="/books" class="cancel-btn">Cancel</button>
+<!-- Submit button -->
+<button mat-raised-button class="submit-btn" type="submit">
+  {{ isEditing ? 'Update Book' : 'Add Book' }}
+</button>
         </div>
 
       </form>

@@ -1,10 +1,16 @@
 <div class="dashboard-content">
-  <h2>Welcome back, {{ userEmail }} 👋</h2>
+
+  <div class="welcome-section">
+    <p class="welcome-title">Welcome back, {{ userEmail }} 👋</p>
+    <p class="welcome-sub">Here's what's happening in your library today.</p>
+  </div>
 
   <div class="stats-grid">
     <mat-card class="stat-card">
       <mat-card-content>
-        <mat-icon class="stat-icon books-icon">menu_book</mat-icon>
+        <div class="stat-icon-wrapper books-wrapper">
+          <mat-icon class="stat-icon books-icon">menu_book</mat-icon>
+        </div>
         <div class="stat-info">
           <p class="stat-label">Total Books</p>
           <p class="stat-number">{{ totalBooks }}</p>
@@ -14,7 +20,9 @@
 
     <mat-card class="stat-card">
       <mat-card-content>
-        <mat-icon class="stat-icon members-icon">people</mat-icon>
+        <div class="stat-icon-wrapper members-wrapper">
+          <mat-icon class="stat-icon members-icon">people</mat-icon>
+        </div>
         <div class="stat-info">
           <p class="stat-label">Total Members</p>
           <p class="stat-number">{{ totalMembers }}</p>
@@ -24,7 +32,9 @@
 
     <mat-card class="stat-card">
       <mat-card-content>
-        <mat-icon class="stat-icon borrowings-icon">swap_horiz</mat-icon>
+        <div class="stat-icon-wrapper borrow-wrapper">
+          <mat-icon class="stat-icon borrowings-icon">swap_horiz</mat-icon>
+        </div>
         <div class="stat-info">
           <p class="stat-label">Active Borrowings</p>
           <p class="stat-number">{{ activeBorrowings }}</p>
@@ -34,7 +44,9 @@
 
     <mat-card class="stat-card">
       <mat-card-content>
-        <mat-icon class="stat-icon fines-icon">payments</mat-icon>
+        <div class="stat-icon-wrapper fines-wrapper">
+          <mat-icon class="stat-icon fines-icon">payments</mat-icon>
+        </div>
         <div class="stat-info">
           <p class="stat-label">Pending Fines</p>
           <p class="stat-number">{{ pendingFines }}</p>
@@ -42,4 +54,5 @@
       </mat-card-content>
     </mat-card>
   </div>
+
 </div>

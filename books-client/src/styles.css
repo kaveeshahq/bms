@@ -1,6 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #fff;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: #f0f4f8;
+  color: #1a202c;
+}
+
+/* Smooth transitions everywhere */
+* {
+  transition: background-color 0.2s ease,
+              box-shadow 0.2s ease,
+              transform 0.15s ease;
+}
+
+/* Table row hover effect */
+.mat-mdc-row:hover {
+  background-color: #f0f7ff !important;
+  cursor: pointer;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Card elevation */
+.mat-mdc-card {
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08),
+              0 4px 12px rgba(0,0,0,0.04) !important;
+  border: 1px solid rgba(226,232,240,0.8) !important;
+}
+
+/* Button improvements */
+.mat-mdc-raised-button {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* Form field improvements */
+.mat-mdc-form-field {
+  border-radius: 8px !important;
 }

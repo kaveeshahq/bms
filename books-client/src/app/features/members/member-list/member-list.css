@@ -1,7 +1,5 @@
 .page-wrapper {
-  padding: 24px;
-  background-color: #f5f5f5;
-  min-height: 100vh;
+  padding: 28px 32px;
 }
 
 .page-header {
@@ -11,31 +9,117 @@
   margin-bottom: 24px;
 }
 
-.page-header h2 {
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a202c;
   margin: 0;
-  font-size: 24px;
-  color: #333;
 }
 
-.search-field {
-  width: 100%;
-  margin-bottom: 16px;
+.page-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.add-btn {
+  background: linear-gradient(135deg, #1565c0, #1976d2) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 0 20px !important;
+  height: 40px;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 12px rgba(21,101,192,0.3) !important;
+}
+
+.add-btn:hover {
+  box-shadow: 0 6px 16px rgba(21,101,192,0.4) !important;
+  transform: translateY(-1px);
+}
+
+.search-card {
+  margin-bottom: 20px;
+  border-radius: 12px !important;
+  padding: 4px 8px;
+}
+
+.search-field { width: 100%; }
+
+.table-card {
+  border-radius: 12px !important;
+  overflow: hidden;
 }
 
 .full-width { width: 100%; }
+
+.mat-mdc-header-row {
+  background: #f8fafc !important;
+}
+
+.mat-mdc-header-cell {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+.mat-mdc-cell {
+  font-size: 14px !important;
+  color: #374151 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 14px 16px !important;
+}
+
+.mat-mdc-row:hover {
+  background: #f0f7ff !important;
+}
+
+.member-id-chip {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.member-name {
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.member-email {
+  font-size: 12px;
+  color: #64748b;
+}
 
 .status-badge {
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.badge-active { background-color: #e8f5e9; color: #2e7d32; }
-.badge-inactive { background-color: #ffebee; color: #c62828; }
+.badge-active   { background: #dcfce7; color: #15803d; }
+.badge-inactive { background: #fee2e2; color: #b91c1c; }
 
 .no-data {
   text-align: center;
-  padding: 32px;
-  color: #999;
+  padding: 48px;
+  color: #94a3b8;
+}
+
+.action-btn {
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
+
+.action-btn mat-icon {
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
 }

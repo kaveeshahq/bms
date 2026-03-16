@@ -1,82 +1,91 @@
 <div class="page-wrapper">
   <div class="page-header">
-    <h2>👥 Members</h2>
-    <button mat-raised-button color="primary" routerLink="/members/new">
+    <div>
+      <h2 class="page-title">👥 Members</h2>
+      <p class="page-subtitle">Manage library members</p>
+    </div>
+    <button class="add-btn" mat-raised-button routerLink="/members/new">
       <mat-icon>add</mat-icon> Add New Member
     </button>
   </div>
 
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>Search by name, email or phone</mat-label>
-    <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" />
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <mat-card class="search-card">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search by name, email, phone or Member ID</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </mat-card>
 
-  <mat-card>
-    <mat-card-content>
-      <table mat-table [dataSource]="members" class="full-width">
+  <mat-card class="table-card">
+    <table mat-table [dataSource]="members" class="full-width">
 
-        <ng-container matColumnDef="fullName">
-          <th mat-header-cell *matHeaderCellDef>Full Name</th>
-          <td mat-cell *matCellDef="let m">{{ m.fullName }}</td>
-        </ng-container>
+      <ng-container matColumnDef="memberId">
+        <th mat-header-cell *matHeaderCellDef>Member ID</th>
+        <td mat-cell *matCellDef="let m">
+          <span class="member-id-chip">{{ m.memberId }}</span>
+        </td>
+      </ng-container>
 
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef>Email</th>
-          <td mat-cell *matCellDef="let m">{{ m.email }}</td>
-        </ng-container>
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef>Member</th>
+        <td mat-cell *matCellDef="let m">
+          <div class="member-name">{{ m.fullName }}</div>
+          <div class="member-email">{{ m.email }}</div>
+        </td>
+      </ng-container>
 
-        <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef>Phone</th>
-          <td mat-cell *matCellDef="let m">{{ m.phone }}</td>
-        </ng-container>
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Phone</th>
+        <td mat-cell *matCellDef="let m">{{ m.phone }}</td>
+      </ng-container>
 
-        <ng-container matColumnDef="registeredAt">
-          <th mat-header-cell *matHeaderCellDef>Registered</th>
-          <td mat-cell *matCellDef="let m">
-            {{ m.registeredAt | date: 'yyyy-MM-dd' }}
-          </td>
-        </ng-container>
+      <ng-container matColumnDef="registeredAt">
+        <th mat-header-cell *matHeaderCellDef>Joined</th>
+        <td mat-cell *matCellDef="let m">
+          {{ m.registeredAt | date: 'yyyy-MM-dd' }}
+        </td>
+      </ng-container>
 
-        <ng-container matColumnDef="isActive">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let m">
-            <span class="status-badge"
-              [ngClass]="m.isActive ? 'badge-active' : 'badge-inactive'">
-              {{ m.isActive ? 'Active' : 'Inactive' }}
-            </span>
-          </td>
-        </ng-container>
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let m">
+          <span class="status-badge"
+            [ngClass]="m.isActive ? 'badge-active' : 'badge-inactive'">
+            {{ m.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+      </ng-container>
 
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let m">
-            <button mat-icon-button color="primary"
-                    [routerLink]="['/members', m.id]"
-                    matTooltip="View Profile">
-              <mat-icon>person</mat-icon>
-            </button>
-            <button mat-icon-button color="accent"
-                    [routerLink]="['/members/edit', m.id]"
-                    matTooltip="Edit">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn"
-                    (click)="deleteMember(m.id)"
-                    matTooltip="Delete">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let m">
+          <button mat-icon-button color="primary" class="action-btn"
+                  [routerLink]="['/members', m.id]"
+                  matTooltip="View Profile">
+            <mat-icon>person</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" class="action-btn"
+                  [routerLink]="['/members/edit', m.id]"
+                  matTooltip="Edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" class="action-btn"
+                  (click)="deleteMember(m.id)"
+                  matTooltip="Delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell no-data" colspan="6">No members found.</td>
-        </tr>
-
-      </table>
-    </mat-card-content>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data" colspan="6">
+          No members found.
+        </td>
+      </tr>
+    </table>
   </mat-card>
 </div>

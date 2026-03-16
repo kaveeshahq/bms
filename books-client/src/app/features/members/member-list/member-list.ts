@@ -34,8 +34,7 @@ import { Member } from '../../../models/member.model';
 export class MemberList implements OnInit {
   members: Member[] = [];
   searchTerm = '';
-  displayedColumns = ['fullName', 'email', 'phone', 'registeredAt', 'isActive', 'actions'];
-
+displayedColumns = ['memberId', 'fullName', 'phone', 'registeredAt', 'isActive', 'actions'];
   constructor(
     private memberService: MemberService,
     private cdr: ChangeDetectorRef
