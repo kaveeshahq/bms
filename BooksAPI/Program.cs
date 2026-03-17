@@ -52,7 +52,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngular", policy =>
         policy.WithOrigins(
             "http://localhost:4200",           
-            "https://bms-kaveeshahq.vercel.app" 
+            "https://elibrary-system-bms.vercel.app" 
         )
         .AllowAnyHeader()
         .AllowAnyMethod());
