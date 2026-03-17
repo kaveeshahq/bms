@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Borrowing, IssueBorrowingDto } from '../../models/borrowing.model';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class BorrowingService {
-  private apiUrl = 'http://localhost:5164/api/borrowings';
-
+private apiUrl = `${environment.apiUrl}/api/borrowings`;
   constructor(private http: HttpClient) {}
 
   getAll() {

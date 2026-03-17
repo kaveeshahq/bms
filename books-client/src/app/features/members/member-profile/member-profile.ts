@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http';
 import { MemberService } from '../../../core/services/member.service';
 import { Member } from '../../../models/member.model';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-member-profile',
   standalone: true,
@@ -49,8 +49,7 @@ export class MemberProfile implements OnInit {
     });
 
     // Load member stats
-    this.http.get<any>(`http://localhost:5164/api/members/${id}/stats`)
-      .subscribe({
+this.http.get<any>(`${environment.apiUrl}/api/members/${id}/stats`)      .subscribe({
         next: (stats) => {
           this.totalBorrowed = stats.totalBorrowed;
           this.currentlyBorrowed = stats.currentlyBorrowed;

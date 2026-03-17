@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -37,8 +37,7 @@ export class Dashboard implements OnInit {
   }
 
   loadStats() {
-    this.http.get<any>('http://localhost:5164/api/dashboard/stats')
-      .subscribe({
+this.http.get<any>(`${environment.apiUrl}/api/dashboard/stats`)      .subscribe({
         next: (data) => {
           this.totalBooks = data.totalBooks;
           this.totalMembers = data.totalMembers;

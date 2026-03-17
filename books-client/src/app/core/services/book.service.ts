@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Book, CreateBookDto, UpdateBookDto } from '../../models/book.model';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = 'http://localhost:5164/api/books';
-
+private apiUrl = `${environment.apiUrl}/api/books`;
   constructor(private http: HttpClient) {}
 
   getAll(search?: string) {
