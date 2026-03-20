@@ -1,89 +1,108 @@
-<div class="page-wrapper">
+<div class="page-wrapper" [attr.data-theme]="currentTheme$ | async">
+  <!-- Page Header -->
   <div class="page-header">
     <div>
       <h2 class="page-title">📚 Books</h2>
-      <p class="page-subtitle">Manage your library book collection</p>
+      <p class="page-subtitle">Explore and manage your book collection</p>
     </div>
     <button class="add-btn" mat-raised-button routerLink="/books/new">
-      <mat-icon>add</mat-icon> Add New Book
+      <mat-icon>add_circle</mat-icon> Add New Book
     </button>
   </div>
 
+  <!-- Search Bar -->
   <mat-card class="search-card">
     <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Search by title, author, ISBN or Book ID</mat-label>
+      <mat-label>Search titles, authors, ISBN...</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
       <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearch()" />
-      <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </mat-card>
 
-  <mat-card class="table-card">
-    <table mat-table [dataSource]="books" class="full-width">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
 
-      <ng-container matColumnDef="bookId">
-        <th mat-header-cell *matHeaderCellDef>Book ID</th>
-        <td mat-cell *matCellDef="let book">
-          <span class="book-id-chip">{{ book.bookId }}</span>
-        </td>
-      </ng-container>
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && bookTitles.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">library_books</mat-icon>
+    <h3>No Books Found</h3>
+    <p>{{ searchTerm ? 'Try a different search term' : 'Add your first book to get started' }}</p>
+    <button mat-raised-button color="primary" routerLink="/books/new">
+      <mat-icon>add</mat-icon> Add Book
+    </button>
+  </div>
 
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Title</th>
-        <td mat-cell *matCellDef="let book">
-          <strong>{{ book.title }}</strong>
-        </td>
-      </ng-container>
+  <!-- Books Grid -->
+  <div class="books-grid" *ngIf="!isLoading && bookTitles.length > 0">
+    <mat-card class="book-card" *ngFor="let book of bookTitles">
+      <!-- Card Header with Icon -->
+      <div class="card-header">
+        <mat-icon class="book-icon">menu_book</mat-icon>
+        <div class="book-meta">
+          <span class="category-badge">{{ book.categoryName }}</span>
+        </div>
+      </div>
 
-      <ng-container matColumnDef="author">
-        <th mat-header-cell *matHeaderCellDef>Author</th>
-        <td mat-cell *matCellDef="let book">{{ book.author }}</td>
-      </ng-container>
+      <!-- Card Content -->
+      <mat-card-content>
+        <!-- Title and Author -->
+        <h3 class="book-title">{{ book.title }}</h3>
+        <p class="book-author">by {{ book.author }}</p>
 
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef>Category</th>
-        <td mat-cell *matCellDef="let book">{{ book.categoryName }}</td>
-      </ng-container>
+        <!-- ISBN and Publisher -->
+        <div class="book-details">
+          <p class="detail-item">
+            <strong>ISBN:</strong> {{ book.isbn }}
+          </p>
+          <p class="detail-item" *ngIf="book.publisher">
+            <strong>Publisher:</strong> {{ book.publisher }}
+          </p>
+        </div>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let book">
-          <span class="status-badge" [ngClass]="{
-            'badge-available': book.status === 'Available',
-            'badge-issued':    book.status === 'Issued',
-            'badge-reserved':  book.status === 'Reserved'
-          }">{{ book.status }}</span>
-        </td>
-      </ng-container>
+        <!-- Copy Information -->
+        <div class="copy-info">
+          <div class="copy-stat">
+            <span class="stat-label">Total Copies</span>
+            <span class="stat-number">{{ book.totalCopies }}</span>
+          </div>
+          <div class="copy-stat">
+            <span class="stat-label">Available</span>
+            <span class="stat-number available">{{ book.availableCopies }}</span>
+          </div>
+          <div class="copy-stat">
+            <span class="stat-label">Issued</span>
+            <span class="stat-number issued">{{ book.totalCopies - book.availableCopies }}</span>
+          </div>
+        </div>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let book">
-          <button mat-icon-button color="primary" class="action-btn"
-                  [routerLink]="['/books', book.id]"
-                  matTooltip="View Details">
-            <mat-icon>visibility</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" class="action-btn"
-                  [routerLink]="['/books/edit', book.id]"
-                  matTooltip="Edit">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" class="action-btn"
-                  (click)="deleteBook(book.id)"
-                  matTooltip="Delete">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+        <!-- Availability Bar -->
+        <div class="availability-section">
+          <div class="availability-header">
+            <span class="label">Availability</span>
+            <span class="percentage">{{ getAvailabilityPercentage(book) }}%</span>
+          </div>
+          <mat-progress-bar
+            [value]="getAvailabilityPercentage(book)"
+            mode="determinate"
+            [color]="getStatusColor(book.availableCopies, book.totalCopies)"
+          ></mat-progress-bar>
+        </div>
+      </mat-card-content>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell no-data" colspan="6">
-          No books found. Add your first book!
-        </td>
-      </tr>
-    </table>
-  </mat-card>
+      <!-- Card Actions -->
+      <div class="card-actions">
+        <button mat-stroked-button color="primary" [routerLink]="['/books', book.id]" class="action-btn">
+          <mat-icon>info</mat-icon> Details
+        </button>
+        <button mat-stroked-button color="accent" [routerLink]="['/books/edit', book.id]" class="action-btn">
+          <mat-icon>edit</mat-icon> Edit
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteBookTitle(book.id)" matTooltip="Delete Book Title">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+  </div>
 </div>

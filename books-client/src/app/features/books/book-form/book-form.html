@@ -1,75 +1,134 @@
-<div class="page-wrapper">
+<div class="page-wrapper" [attr.data-theme]="currentTheme$ | async">
+  <!-- Page Header -->
   <div class="page-header">
-    <button mat-icon-button routerLink="/books" class="back-btn">
-  <mat-icon>arrow_back</mat-icon>
-</button>
-    <h2>{{ isEditing ? '✏️ Edit Book' : '➕ Add New Book' }}</h2>
+    <div class="header-content">
+      <button mat-icon-button routerLink="/books" class="back-btn" matTooltip="Back to Books">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h2 class="page-title">{{ isEditing ? '✏️ Edit Book' : '➕ Add New Book' }}</h2>
+        <p class="page-subtitle">{{ isEditing ? 'Update book information' : 'Add a new title to your library' }}</p>
+      </div>
+    </div>
   </div>
 
+  <!-- Form Card -->
   <mat-card class="form-card">
     <mat-card-content>
       <form (ngSubmit)="onSubmit()">
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Book ID</mat-label>
-          <input matInput [(ngModel)]="formData.bookId"
-                 name="bookId" required
-                 placeholder="e.g. BK0001" />
-          <mat-hint>Unique ID printed on the book</mat-hint>
-        </mat-form-field>
-
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Title</mat-label>
-            <input matInput [(ngModel)]="formData.title" name="title" required />
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Author</mat-label>
-            <input matInput [(ngModel)]="formData.author" name="author" required />
-          </mat-form-field>
+        <!-- Success Message -->
+        <div class="message-box success-message" *ngIf="successMessage">
+          <mat-icon>check_circle</mat-icon>
+          <span>{{ successMessage }}</span>
         </div>
 
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>ISBN</mat-label>
-            <input matInput [(ngModel)]="formData.isbn" name="isbn" required />
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Publisher</mat-label>
-            <input matInput [(ngModel)]="formData.publisher" name="publisher" />
-          </mat-form-field>
+        <!-- Error Message -->
+        <div class="message-box error-message" *ngIf="errorMessage">
+          <mat-icon>error</mat-icon>
+          <span>{{ errorMessage }}</span>
         </div>
 
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Published Year</mat-label>
-            <input matInput type="number"
-                   [(ngModel)]="formData.publishedYear"
-                   name="publishedYear" />
-          </mat-form-field>
+        <!-- Text Fields Section -->
+        <div class="form-section">
+          <h3 class="section-title">Book Information</h3>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Category</mat-label>
-            <mat-select [(ngModel)]="formData.categoryId"
-                        name="categoryId" required>
-              <mat-option *ngFor="let cat of categories" [value]="cat.id">
-                {{ cat.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Title *</mat-label>
+              <input matInput
+                     [ngModel]="isEditing ? formDataUpdate.title : formData.title"
+                     (ngModelChange)="isEditing ? (formDataUpdate.title = $event) : (formData.title = $event)"
+                     name="title" required
+                     placeholder="e.g. The Great Gatsby" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Author *</mat-label>
+              <input matInput
+                     [ngModel]="isEditing ? formDataUpdate.author : formData.author"
+                     (ngModelChange)="isEditing ? (formDataUpdate.author = $event) : (formData.author = $event)"
+                     name="author" required
+                     placeholder="e.g. F. Scott Fitzgerald" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-row" *ngIf="!isEditing">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>ISBN *</mat-label>
+              <input matInput [(ngModel)]="formData.isbn" name="isbn" required
+                     placeholder="e.g. 978-0-7432-7356-5" />
+              <mat-hint>13-digit ISBN code</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Publisher</mat-label>
+              <input matInput
+                     [ngModel]="isEditing ? formDataUpdate.publisher : formData.publisher"
+                     (ngModelChange)="isEditing ? (formDataUpdate.publisher = $event) : (formData.publisher = $event)"
+                     name="publisher"
+                     placeholder="e.g. Scribner" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Published Year</mat-label>
+              <input matInput type="number"
+                     [ngModel]="isEditing ? formDataUpdate.publishedYear : formData.publishedYear"
+                     (ngModelChange)="isEditing ? (formDataUpdate.publishedYear = $event) : (formData.publishedYear = $event)"
+                     name="publishedYear"
+                     placeholder="e.g. 1925" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Category *</mat-label>
+              <mat-select [ngModel]="isEditing ? formDataUpdate.categoryId : formData.categoryId"
+                          (ngModelChange)="isEditing ? (formDataUpdate.categoryId = $event) : (formData.categoryId = $event)"
+                          name="categoryId" 
+                          required
+                          panelClass="category-select-panel">
+                <mat-option value="">Select a category</mat-option>
+                <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                  {{ cat.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
 
-        <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <!-- Copy Management Section (Create Only) -->
+        <div class="form-section" *ngIf="!isEditing">
+          <h3 class="section-title">Initial Copies</h3>
+          <p class="section-subtitle">How many physical copies are you adding?</p>
 
+          <div class="copy-management">
+            <div class="slider-container">
+              <mat-form-field appearance="outline" class="copy-input">
+                <mat-label>Number of Copies</mat-label>
+                <input matInput type="number" [(ngModel)]="formData.totalCopies" name="totalCopies"
+                       min="1" max="999" required />
+                <mat-hint>1-999 copies</mat-hint>
+              </mat-form-field>
+              <div class="copy-preview">
+                <span class="copy-label">You are adding:</span>
+                <span class="copy-count">{{ formData.totalCopies }}</span>
+                <span class="copy-label">{{ formData.totalCopies === 1 ? 'copy' : 'copies' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
         <div class="form-actions">
-<button mat-button type="button" routerLink="/books" class="cancel-btn">Cancel</button>
-<button mat-raised-button class="submit-btn" type="submit">
-  {{ isEditing ? 'Update Book' : 'Add Book' }}
-</button>
+          <button mat-stroked-button type="button" routerLink="/books" class="cancel-btn" [disabled]="isLoading">
+            Cancel
+          </button>
+          <button mat-raised-button color="primary" type="submit" class="submit-btn" [disabled]="isLoading">
+            <mat-icon *ngIf="!isLoading">{{ isEditing ? 'check' : 'add' }}</mat-icon>
+            <span *ngIf="!isLoading">{{ isEditing ? 'Update Book' : 'Add Book' }}</span>
+            <span *ngIf="isLoading">Saving...</span>
+          </button>
         </div>
-
       </form>
     </mat-card-content>
   </mat-card>

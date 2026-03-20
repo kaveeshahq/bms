@@ -8,9 +8,9 @@ namespace BooksAPI.Models
         public DateTime ReservedAt { get; set; } = DateTime.UtcNow;
         public ReservationStatus Status { get; set; } = ReservationStatus.Pending;
 
-        // Foreign Keys
-        public int BookId { get; set; }
-        public Book Book { get; set; } = null!;
+        // Foreign Keys - Changed from BookId to BookTitleId
+        public int BookTitleId { get; set; }
+        public BookTitle BookTitle { get; set; } = null!;
 
         public int MemberId { get; set; }
         public Member Member { get; set; } = null!;

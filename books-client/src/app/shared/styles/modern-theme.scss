@@ -1,0 +1,396 @@
+/**
+ * Modern Theme Styles for Books Management System
+ * Supports both Light and Dark modes
+ */
+
+// Color Palette
+$primary-color-light: #1976d2;
+$primary-color-dark: #90caf9;
+
+$accent-color-light: #ff4081;
+$accent-color-dark: #f48fb1;
+
+$background-light: #ffffff;
+$background-dark: #121212;
+
+$surface-light: #f5f5f5;
+$surface-dark: #1e1e1e;
+
+$text-primary-light: #212121;
+$text-primary-dark: #ffffff;
+
+$text-secondary-light: #666666;
+$text-secondary-dark: #b0b0b0;
+
+$border-light: #e0e0e0;
+$border-dark: #424242;
+
+$success-color: #4caf50;
+$warning-color: #ff9800;
+$error-color: #f44336;
+$info-color: #2196f3;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// Shadows
+$shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+$shadow-md: 0 3px 6px 0 rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.23);
+$shadow-lg: 0 10px 20px 0 rgba(0, 0, 0, 0.19), 0 6px 6px 0 rgba(0, 0, 0, 0.23);
+
+// ============ Light Theme ============
+:root.light-theme {
+  --primary-color: #{$primary-color-light};
+  --accent-color: #{$accent-color-light};
+  --background-color: #{$background-light};
+  --surface-color: #{$surface-light};
+  --text-primary: #{$text-primary-light};
+  --text-secondary: #{$text-secondary-light};
+  --border-color: #{$border-light};
+  --shadow: #{$shadow-md};
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --success-color: #{$success-color};
+  --warning-color: #{$warning-color};
+  --error-color: #{$error-color};
+  --info-color: #{$info-color};
+}
+
+// ============ Dark Theme ============
+:root.dark-theme {
+  --primary-color: #{$primary-color-dark};
+  --accent-color: #{$accent-color-dark};
+  --background-color: #{$background-dark};
+  --surface-color: #{$surface-dark};
+  --text-primary: #{$text-primary-dark};
+  --text-secondary: #{$text-secondary-dark};
+  --border-color: #{$border-dark};
+  --shadow: #{$shadow-md};
+  --hover-bg: rgba(255, 255, 255, 0.08);
+  --success-color: #{$success-color};
+  --warning-color: #{$warning-color};
+  --error-color: #{$error-color};
+  --info-color: #{$info-color};
+}
+
+// ============ Global Styles ============
+html, body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  font-family: 'Roboto', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ============ Card Component ============
+.card {
+  background-color: var(--surface-color);
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// ============ Button Styles ============
+.btn {
+  padding: $spacing-sm $spacing-lg;
+  border: none;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  
+  &.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    
+    &:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  }
+  
+  &.btn-accent {
+    background-color: var(--accent-color);
+    color: white;
+    
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+  
+  &.btn-outlined {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+    
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+  }
+  
+  &.btn-text {
+    background-color: transparent;
+    color: var(--primary-color);
+    
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ============ Input Styles ============
+input, textarea, select {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.1);
+  }
+  
+  &::placeholder {
+    color: var(--text-secondary);
+  }
+}
+
+// ============ Badge/Chip ============
+.badge {
+  display: inline-block;
+  padding: $spacing-xs $spacing-md;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &.badge-success {
+    background-color: rgba($success-color, 0.2);
+    color: $success-color;
+  }
+  
+  &.badge-warning {
+    background-color: rgba($warning-color, 0.2);
+    color: $warning-color;
+  }
+  
+  &.badge-error {
+    background-color: rgba($error-color, 0.2);
+    color: $error-color;
+  }
+  
+  &.badge-info {
+    background-color: rgba($info-color, 0.2);
+    color: $info-color;
+  }
+}
+
+// ============ Responsive Grid ============
+.grid {
+  display: grid;
+  gap: $spacing-lg;
+  
+  &.grid-2 {
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &.grid-3 {
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &.grid-4 {
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media (min-width: 768px) and (max-width: 1199px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+// ============ Typography ============
+.heading-1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: $spacing-md 0;
+}
+
+.heading-2 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: $spacing-md 0;
+}
+
+.heading-3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: $spacing-sm 0;
+}
+
+.body-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.small-text {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+// ============ Utility Classes ============
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex {
+  display: flex;
+  
+  &.flex-column {
+    flex-direction: column;
+  }
+  
+  &.flex-center {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  &.flex-between {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  &.gap-sm {
+    gap: $spacing-sm;
+  }
+  
+  &.gap-md {
+    gap: $spacing-md;
+  }
+  
+  &.gap-lg {
+    gap: $spacing-lg;
+  }
+}
+
+.margin-top {
+  margin-top: $spacing-md;
+}
+
+.margin-bottom {
+  margin-bottom: $spacing-md;
+}
+
+.padding {
+  padding: $spacing-md;
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+.opacity-75 {
+  opacity: 0.75;
+}
+
+// ============ Loading & Spinner ============
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+}
+
+// ============ Toast/Alert ============
+.alert {
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  border-left: 4px solid;
+  margin: $spacing-md 0;
+  
+  &.alert-success {
+    background-color: rgba($success-color, 0.1);
+    border-color: $success-color;
+    color: $success-color;
+  }
+  
+  &.alert-warning {
+    background-color: rgba($warning-color, 0.1);
+    border-color: $warning-color;
+    color: $warning-color;
+  }
+  
+  &.alert-error {
+    background-color: rgba($error-color, 0.1);
+    border-color: $error-color;
+    color: $error-color;
+  }
+  
+  &.alert-info {
+    background-color: rgba($info-color, 0.1);
+    border-color: $info-color;
+    color: $info-color;
+  }
+}

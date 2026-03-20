@@ -11,6 +11,10 @@
         <div class="user-avatar">{{ userInitial }}</div>
         <span class="user-email">{{ userEmail }}</span>
       </div>
+      <button class="theme-toggle-btn" (click)="toggleTheme()" [matTooltip]="(currentTheme$ | async) === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'">
+        <mat-icon *ngIf="(currentTheme$ | async) === 'light'">dark_mode</mat-icon>
+        <mat-icon *ngIf="(currentTheme$ | async) === 'dark'">light_mode</mat-icon>
+      </button>
       <button class="logout-btn" (click)="logout()" matTooltip="Logout">
         <mat-icon>logout</mat-icon>
       </button>

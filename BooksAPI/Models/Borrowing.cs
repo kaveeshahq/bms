@@ -10,9 +10,9 @@ namespace BooksAPI.Models
         public DateTime? ReturnDate { get; set; }
         public BorrowingStatus Status { get; set; } = BorrowingStatus.Active;
 
-        // Foreign Keys
-        public int BookId { get; set; }
-        public Book Book { get; set; } = null!;
+        // Foreign Keys - Changed from BookId to BookCopyId
+        public int BookCopyId { get; set; }
+        public BookCopy BookCopy { get; set; } = null!;
 
         public int MemberId { get; set; }
         public Member Member { get; set; } = null!;

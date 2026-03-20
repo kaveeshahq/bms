@@ -1,56 +1,124 @@
-<div class="dashboard-content">
-
+<div class="dashboard-content" [attr.data-theme]="currentTheme$ | async">
+  <!-- Welcome Section -->
   <div class="welcome-section">
-    <p class="welcome-title">Welcome back, {{ userEmail }} 👋</p>
-    <p class="welcome-sub">Here's what's happening in your library today.</p>
+    <div class="welcome-header">
+      <div>
+        <p class="welcome-title">Welcome back, {{ userEmail }} 👋</p>
+        <p class="welcome-sub">Here's an overview of your library management system</p>
+      </div>
+    </div>
   </div>
 
-  <div class="stats-grid">
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <div class="stat-icon-wrapper books-wrapper">
-          <mat-icon class="stat-icon books-icon">menu_book</mat-icon>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <!-- Main Stats Grid -->
+  <div class="stats-grid" *ngIf="!isLoading">
+    <!-- Total Books Card -->
+    <mat-card class="stat-card books-card" (click)="navigateTo('books')">
+      <mat-card-header>
+        <div class="card-icon books-icon">
+          <mat-icon>library_books</mat-icon>
         </div>
-        <div class="stat-info">
-          <p class="stat-label">Total Books</p>
-          <p class="stat-number">{{ totalBooks }}</p>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="card-label">Total Books</p>
+        <p class="card-number">{{ stats.totalBooks }}</p>
+        <p class="card-subtitle">In your collection</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Available Books Card -->
+    <mat-card class="stat-card available-card" (click)="navigateTo('books')">
+      <mat-card-header>
+        <div class="card-icon available-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="card-label">Available Now</p>
+        <p class="card-number">{{ stats.availableBooks }}</p>
+        <div class="progress-bar">
+          <mat-progress-bar [value]="getAvailablePercentage()" mode="determinate"></mat-progress-bar>
+          <span class="progress-text">{{ getAvailablePercentage() }}%</span>
         </div>
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <div class="stat-icon-wrapper members-wrapper">
-          <mat-icon class="stat-icon members-icon">people</mat-icon>
+    <!-- Active Borrowings Card -->
+    <mat-card class="stat-card borrowing-card" (click)="navigateTo('borrowings')">
+      <mat-card-header>
+        <div class="card-icon borrowing-icon">
+          <mat-icon>assignment</mat-icon>
         </div>
-        <div class="stat-info">
-          <p class="stat-label">Total Members</p>
-          <p class="stat-number">{{ totalMembers }}</p>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="card-label">Active Borrowings</p>
+        <p class="card-number">{{ stats.activeBorrowings }}</p>
+        <div class="progress-bar">
+          <mat-progress-bar [value]="getBorrowingPercentage()" mode="determinate"></mat-progress-bar>
+          <span class="progress-text">{{ getBorrowingPercentage() }}% of collection</span>
         </div>
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="stat-card">
+    <!-- Members Card -->
+    <mat-card class="stat-card members-card" (click)="navigateTo('members')">
+      <mat-card-header>
+        <div class="card-icon members-icon">
+          <mat-icon>groups</mat-icon>
+        </div>
+      </mat-card-header>
       <mat-card-content>
-        <div class="stat-icon-wrapper borrow-wrapper">
-          <mat-icon class="stat-icon borrowings-icon">swap_horiz</mat-icon>
-        </div>
-        <div class="stat-info">
-          <p class="stat-label">Active Borrowings</p>
-          <p class="stat-number">{{ activeBorrowings }}</p>
-        </div>
+        <p class="card-label">Total Members</p>
+        <p class="card-number">{{ stats.totalMembers }}</p>
+        <p class="card-subtitle">Active members</p>
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="stat-card">
+    <!-- Overdue Books Card -->
+    <mat-card class="stat-card overdue-card" *ngIf="stats" (click)="navigateTo('borrowings')" [matTooltip]="stats.overdueBooks > 0 ? 'Attention needed' : 'All on track'">
+      <mat-card-header>
+        <div class="card-icon overdue-icon">
+          <mat-icon>warning</mat-icon>
+        </div>
+      </mat-card-header>
       <mat-card-content>
-        <div class="stat-icon-wrapper fines-wrapper">
-          <mat-icon class="stat-icon fines-icon">payments</mat-icon>
+        <p class="card-label">Overdue Books</p>
+        <p class="card-number">{{ stats.overdueBooks }}</p>
+        <p class="card-subtitle" *ngIf="stats.overdueBooks === 0">No overdue items</p>
+        <p class="card-subtitle alert" *ngIf="stats.overdueBooks > 0">Action required</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Pending Fines Card -->
+    <mat-card class="stat-card fines-card" (click)="navigateTo('fines')">
+      <mat-card-header>
+        <div class="card-icon fines-icon">
+          <mat-icon>payments</mat-icon>
         </div>
-        <div class="stat-info">
-          <p class="stat-label">Pending Fines</p>
-          <p class="stat-number">{{ pendingFines }}</p>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="card-label">Pending Fines</p>
+        <p class="card-number">{{ stats.pendingFines }}</p>
+        <p class="card-subtitle" *ngIf="stats.pendingFines > 0">${{ stats.totalFinesAmount | number: '1.2-2' }}</p>
+        <p class="card-subtitle" *ngIf="stats.pendingFines === 0">All clear</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Categories Card -->
+    <mat-card class="stat-card categories-card">
+      <mat-card-header>
+        <div class="card-icon categories-icon">
+          <mat-icon>category</mat-icon>
         </div>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="card-label">Categories</p>
+        <p class="card-number">{{ stats.categoriesCount }}</p>
+        <p class="card-subtitle">Book categories</p>
       </mat-card-content>
     </mat-card>
   </div>

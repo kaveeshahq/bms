@@ -17,14 +17,15 @@ namespace BooksAPI.Services
         {
             return await _context.Fines
                 .Include(f => f.Borrowing)
-                    .ThenInclude(b => b.Book)
+                    .ThenInclude(b => b.BookCopy)
+                    .ThenInclude(bc => bc.BookTitle)
                 .Include(f => f.Borrowing)
                     .ThenInclude(b => b.Member)
                 .Select(f => new FineDto
                 {
                     Id = f.Id,
                     BorrowingId = f.BorrowingId,
-                    BookTitle = f.Borrowing.Book.Title,
+                    BookTitle = f.Borrowing.BookCopy.BookTitle.Title,
                     MemberName = f.Borrowing.Member.FullName,
                     Amount = f.Amount,
                     IsPaid = f.IsPaid,

@@ -42,6 +42,7 @@ builder.Services.AddAuthentication(options =>
 // Register services
 builder.Services.AddScoped<JwtHelper>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBookTitleService, BookTitleService>(); // NEW: Book title service with inventory support
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IBorrowingService, BorrowingService>();
 builder.Services.AddScoped<IFineService, FineService>();
@@ -64,11 +65,36 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Auto-run migrations on startup
+// Auto-run migrations and seed data on startup
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+    
+    // Seed categories if they don't exist
+    if (!db.Categories.Any())
+    {
+        var categories = new[]
+        {
+            new BooksAPI.Models.Category { Name = "Fiction" },
+            new BooksAPI.Models.Category { Name = "Non-Fiction" },
+            new BooksAPI.Models.Category { Name = "Science Fiction" },
+            new BooksAPI.Models.Category { Name = "Mystery & Thriller" },
+            new BooksAPI.Models.Category { Name = "Romance" },
+            new BooksAPI.Models.Category { Name = "Biography" },
+            new BooksAPI.Models.Category { Name = "History" },
+            new BooksAPI.Models.Category { Name = "Science & Technology" },
+            new BooksAPI.Models.Category { Name = "Self-Help" },
+            new BooksAPI.Models.Category { Name = "Business" },
+            new BooksAPI.Models.Category { Name = "Fantasy" },
+            new BooksAPI.Models.Category { Name = "Children's Books" },
+            new BooksAPI.Models.Category { Name = "Poetry" },
+            new BooksAPI.Models.Category { Name = "Art & Design" },
+            new BooksAPI.Models.Category { Name = "Cooking" }
+        };
+        db.Categories.AddRange(categories);
+        db.SaveChanges();
+    }
 }
 
 if (app.Environment.IsDevelopment())

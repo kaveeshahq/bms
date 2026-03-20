@@ -18,15 +18,18 @@ namespace BooksAPI.Services
         public async Task<List<BorrowingDto>> GetAllAsync()
         {
             return await _context.Borrowings
-                .Include(b => b.Book)
+                .Include(b => b.BookCopy)
+                .ThenInclude(bc => bc.BookTitle)
                 .Include(b => b.Member)
                 .Include(b => b.Fine)
                 .Select(b => new BorrowingDto
                 {
                     Id = b.Id,
-                    BookId = b.BookId,
-                    BookTitle = b.Book.Title,
-                    BookISBN = b.Book.ISBN,
+                    BookCopyId = b.BookCopyId,
+                    BookTitleId = b.BookCopy.BookTitleId,
+                    CopyNumber = b.BookCopy.CopyNumber,
+                    BookTitle = b.BookCopy.BookTitle.Title,
+                    BookISBN = b.BookCopy.BookTitle.ISBN,
                     MemberId = b.MemberId,
                     MemberName = b.Member.FullName,
                     MemberEmail = b.Member.Email,
@@ -43,16 +46,19 @@ namespace BooksAPI.Services
         public async Task<List<BorrowingDto>> GetByMemberAsync(int memberId)
         {
             return await _context.Borrowings
-                .Include(b => b.Book)
+                .Include(b => b.BookCopy)
+                .ThenInclude(bc => bc.BookTitle)
                 .Include(b => b.Member)
                 .Include(b => b.Fine)
                 .Where(b => b.MemberId == memberId)
                 .Select(b => new BorrowingDto
                 {
                     Id = b.Id,
-                    BookId = b.BookId,
-                    BookTitle = b.Book.Title,
-                    BookISBN = b.Book.ISBN,
+                    BookCopyId = b.BookCopyId,
+                    BookTitleId = b.BookCopy.BookTitleId,
+                    CopyNumber = b.BookCopy.CopyNumber,
+                    BookTitle = b.BookCopy.BookTitle.Title,
+                    BookISBN = b.BookCopy.BookTitle.ISBN,
                     MemberId = b.MemberId,
                     MemberName = b.Member.FullName,
                     MemberEmail = b.Member.Email,
@@ -68,12 +74,9 @@ namespace BooksAPI.Services
 
         public async Task<BorrowingDto> IssueBookAsync(IssueBorrowingDto dto)
         {
-            // Check book is available
-            var book = await _context.Books.FindAsync(dto.BookId)
-                ?? throw new Exception("Book not found");
-
-            if (book.Status != BookStatus.Available)
-                throw new Exception("Book is not available");
+            // Check book title exists
+            var bookTitle = await _context.BookTitles.FindAsync(dto.BookTitleId)
+                ?? throw new Exception("Book title not found");
 
             // Check member exists and is active
             var member = await _context.Members.FindAsync(dto.MemberId)
@@ -82,29 +85,98 @@ namespace BooksAPI.Services
             if (!member.IsActive)
                 throw new Exception("Member is not active");
 
+            // Get or find available copy
+            BookCopy? bookCopy = null;
+
+            if (dto.CopyNumber.HasValue)
+            {
+                // User specified a copy number - find that exact copy
+                bookCopy = await _context.BookCopies
+                    .FirstOrDefaultAsync(bc =>
+                        bc.BookTitleId == dto.BookTitleId &&
+                        bc.CopyNumber == dto.CopyNumber.Value);
+
+                if (bookCopy == null)
+                    throw new Exception($"Copy number {dto.CopyNumber} not found for this book title");
+
+                if (bookCopy.Status != BookCopyStatus.Available)
+                    throw new Exception($"Copy {dto.CopyNumber} is not available");
+            }
+            else
+            {
+                // Auto-select first available copy
+                bookCopy = await _context.BookCopies
+                    .Where(bc =>
+                        bc.BookTitleId == dto.BookTitleId &&
+                        bc.Status == BookCopyStatus.Available)
+                    .OrderBy(bc => bc.CopyNumber)
+                    .FirstOrDefaultAsync();
+
+                if (bookCopy == null)
+                    throw new Exception("No available copies of this book title");
+            }
+
+            // Check member doesn't already have an active borrow of this title
+            var activeBorrow = await _context.Borrowings
+                .Where(b =>
+                    b.MemberId == dto.MemberId &&
+                    b.BookCopy.BookTitleId == dto.BookTitleId &&
+                    b.Status == BorrowingStatus.Active)
+                .FirstOrDefaultAsync();
+
+            if (activeBorrow != null)
+                throw new Exception("Member already has an active borrow of this book title");
+
             // Create borrowing
             var borrowing = new Borrowing
             {
-                BookId = dto.BookId,
+                BookCopyId = bookCopy.Id,
                 MemberId = dto.MemberId,
                 IssueDate = DateTime.UtcNow,
                 DueDate = DateTime.UtcNow.AddDays(dto.DueDays),
                 Status = BorrowingStatus.Active
             };
 
-            // Update book status
-            book.Status = BookStatus.Issued;
+            // Update copy status
+            bookCopy.Status = BookCopyStatus.Issued;
 
             _context.Borrowings.Add(borrowing);
             await _context.SaveChangesAsync();
 
-            return (await GetAllAsync()).First(b => b.Id == borrowing.Id);
+            // Reload and return
+            borrowing = await _context.Borrowings
+                .Include(b => b.BookCopy)
+                .ThenInclude(bc => bc.BookTitle)
+                .Include(b => b.Member)
+                .FirstOrDefaultAsync(b => b.Id == borrowing.Id)
+                ?? throw new Exception("Failed to create borrowing");
+
+            return new BorrowingDto
+            {
+                Id = borrowing.Id,
+                BookCopyId = borrowing.BookCopyId,
+                BookTitleId = borrowing.BookCopy.BookTitleId,
+                CopyNumber = borrowing.BookCopy.CopyNumber,
+                BookTitle = borrowing.BookCopy.BookTitle.Title,
+                BookISBN = borrowing.BookCopy.BookTitle.ISBN,
+                MemberId = borrowing.MemberId,
+                MemberName = borrowing.Member.FullName,
+                MemberEmail = borrowing.Member.Email,
+                IssueDate = borrowing.IssueDate,
+                DueDate = borrowing.DueDate,
+                ReturnDate = borrowing.ReturnDate,
+                Status = borrowing.Status.ToString(),
+                FineAmount = null,
+                FinePaid = null
+            };
         }
 
         public async Task<BorrowingDto> ReturnBookAsync(int borrowingId)
         {
             var borrowing = await _context.Borrowings
-                .Include(b => b.Book)
+                .Include(b => b.BookCopy)
+                .ThenInclude(bc => bc.BookTitle)
+                .Include(b => b.Member)
                 .FirstOrDefaultAsync(b => b.Id == borrowingId)
                 ?? throw new Exception("Borrowing not found");
 
@@ -112,8 +184,8 @@ namespace BooksAPI.Services
             borrowing.ReturnDate = returnDate;
             borrowing.Status = BorrowingStatus.Returned;
 
-            // Update book status back to available
-            borrowing.Book.Status = BookStatus.Available;
+            // Update copy status back to available
+            borrowing.BookCopy.Status = BookCopyStatus.Available;
 
             // Calculate fine if overdue
             var fineAmount = FineCalculator.Calculate(borrowing.DueDate, returnDate);
@@ -130,7 +202,33 @@ namespace BooksAPI.Services
 
             await _context.SaveChangesAsync();
 
-            return (await GetAllAsync()).First(b => b.Id == borrowingId);
+            // Reload and return
+            borrowing = await _context.Borrowings
+                .Include(b => b.BookCopy)
+                .ThenInclude(bc => bc.BookTitle)
+                .Include(b => b.Member)
+                .Include(b => b.Fine)
+                .FirstOrDefaultAsync(b => b.Id == borrowingId)
+                ?? throw new Exception("Failed to return book");
+
+            return new BorrowingDto
+            {
+                Id = borrowing.Id,
+                BookCopyId = borrowing.BookCopyId,
+                BookTitleId = borrowing.BookCopy.BookTitleId,
+                CopyNumber = borrowing.BookCopy.CopyNumber,
+                BookTitle = borrowing.BookCopy.BookTitle.Title,
+                BookISBN = borrowing.BookCopy.BookTitle.ISBN,
+                MemberId = borrowing.MemberId,
+                MemberName = borrowing.Member.FullName,
+                MemberEmail = borrowing.Member.Email,
+                IssueDate = borrowing.IssueDate,
+                DueDate = borrowing.DueDate,
+                ReturnDate = borrowing.ReturnDate,
+                Status = borrowing.Status.ToString(),
+                FineAmount = borrowing.Fine?.Amount,
+                FinePaid = borrowing.Fine?.IsPaid
+            };
         }
 
         public async Task<bool> RenewBookAsync(int borrowingId)

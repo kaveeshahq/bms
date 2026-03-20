@@ -1,0 +1,127 @@
+<div class="modal-wrapper" [attr.data-theme]="currentTheme$ | async">
+  <!-- Modal Header -->
+  <div class="modal-header">
+    <h2 class="modal-title">📚 Inventory Management</h2>
+    <p class="modal-subtitle">{{ bookTitle.title }} by {{ bookTitle.author }}</p>
+    <button mat-icon-button (click)="closeModal()" class="close-btn" matTooltip="Close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Modal Content -->
+  <div class="modal-content">
+    <!-- Messages -->
+    <div class="message-box success-message" *ngIf="successMessage">
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ successMessage }}</span>
+    </div>
+
+    <div class="message-box error-message" *ngIf="errorMessage">
+      <mat-icon>error</mat-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="inventory-summary">
+      <div class="stat-card">
+        <mat-icon>library_books</mat-icon>
+        <span class="stat-label">Total Copies</span>
+        <span class="stat-value">{{ bookTitle.totalCopies }}</span>
+      </div>
+      <div class="stat-card">
+        <mat-icon>check_circle</mat-icon>
+        <span class="stat-label">Available</span>
+        <span class="stat-value available">{{ bookTitle.availableCopies }}</span>
+      </div>
+      <div class="stat-card">
+        <mat-icon>local_shipping</mat-icon>
+        <span class="stat-label">Issued</span>
+        <span class="stat-value issued">{{ bookTitle.totalCopies - bookTitle.availableCopies }}</span>
+      </div>
+    </div>
+
+    <!-- Copies List -->
+    <div class="copies-section">
+      <h3 class="section-title">Physical Copies</h3>
+      
+      <div *ngIf="bookTitle.copies && bookTitle.copies.length > 0; else noCopies" class="copies-list">
+        <div class="copy-card" *ngFor="let copy of bookTitle.copies" [ngClass]="getStatusColor(copy.status)">
+          <div class="copy-header">
+            <span class="copy-number">Copy {{ copy.copyNumber }}</span>
+            <mat-icon class="status-icon" [matTooltip]="copy.status">{{ getStatusIcon(copy.status) }}</mat-icon>
+          </div>
+
+          <div class="copy-details">
+            <p class="detail-item" *ngIf="copy.barcodeId">
+              <strong>Barcode:</strong> {{ copy.barcodeId }}
+            </p>
+            <p class="detail-item">
+              <strong>Status:</strong>
+              <span class="status-badge" [ngClass]="getStatusColor(copy.status)">
+                {{ copy.status }}
+              </span>
+            </p>
+            <p class="detail-item">
+              <strong>Added:</strong> {{ copy.acquiredAt | date: 'MMM d, y' }}
+            </p>
+          </div>
+
+          <div class="copy-actions">
+            <button mat-icon-button 
+                    color="warn"
+                    (click)="removeCopy(copy.id)"
+                    matTooltip="Remove Copy"
+                    [disabled]="isLoading">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noCopies>
+        <p class="no-copies-msg">No physical copies yet. Add one below!</p>
+      </ng-template>
+    </div>
+
+    <!-- Add Copy Section -->
+    <div class="add-copy-section">
+      <h3 class="section-title">Add New Copy</h3>
+
+      <div *ngIf="!isAddingCopy" class="add-copy-prompt">
+        <button mat-raised-button color="primary" (click)="isAddingCopy = true" [disabled]="isLoading">
+          <mat-icon>add_circle</mat-icon> Add Copy to Library
+        </button>
+      </div>
+
+      <div *ngIf="isAddingCopy" class="add-copy-form">
+        <p class="form-hint">Add a new physical copy to your inventory</p>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Barcode ID (Optional)</mat-label>
+          <mat-icon matPrefix>qr_code</mat-icon>
+          <input matInput [(ngModel)]="newBarcodeId" 
+                 name="barcodeId"
+                 placeholder="e.g. 978-0-7432-7356-5-001"
+                 [disabled]="isLoading" />
+          <mat-hint>Leave blank to auto-generate</mat-hint>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" (click)="isAddingCopy = false" [disabled]="isLoading">
+            Cancel
+          </button>
+          <button mat-raised-button color="success" type="button" (click)="addCopy()" [disabled]="isLoading">
+            <mat-icon>check</mat-icon> Add Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <button mat-stroked-button (click)="closeModal()">
+      Close
+    </button>
+  </div>
+</div>
