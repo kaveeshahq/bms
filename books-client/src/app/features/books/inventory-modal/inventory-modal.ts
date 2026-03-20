@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
@@ -27,10 +34,10 @@ import { takeUntil } from 'rxjs/operators';
     MatFormFieldModule,
     MatInputModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './inventory-modal.html',
-  styleUrl: './inventory-modal.css'
+  styleUrl: './inventory-modal.css',
 })
 export class InventoryModal implements OnInit, OnDestroy {
   currentTheme$!: Observable<string>;
@@ -48,7 +55,7 @@ export class InventoryModal implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<InventoryModal>,
     private bookTitleService: BookTitleService,
     private themeService: ThemeService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.bookTitle = data.bookTitle;
     this.currentTheme$ = this.themeService.getTheme$();
@@ -64,7 +71,8 @@ export class InventoryModal implements OnInit, OnDestroy {
   }
 
   refreshBookData() {
-    this.bookTitleService.getById(this.bookTitle.id)
+    this.bookTitleService
+      .getById(this.bookTitle.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (updated) => {
@@ -75,7 +83,7 @@ export class InventoryModal implements OnInit, OnDestroy {
           console.error('Failed to refresh book data', err);
           this.errorMessage = 'Failed to refresh inventory.';
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
@@ -92,7 +100,8 @@ export class InventoryModal implements OnInit, OnDestroy {
 
     const newTotalCopies = this.bookTitle.totalCopies + 1;
 
-    this.bookTitleService.updateCopyCount(this.bookTitle.id, newTotalCopies)
+    this.bookTitleService
+      .updateCopyCount(this.bookTitle.id, newTotalCopies)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (updated) => {
@@ -111,7 +120,7 @@ export class InventoryModal implements OnInit, OnDestroy {
           this.errorMessage = 'Failed to add copy. Please try again.';
           this.isLoading = false;
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
@@ -124,7 +133,8 @@ export class InventoryModal implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.cdr.markForCheck();
 
-    this.bookTitleService.deleteCopy(copyId)
+    this.bookTitleService
+      .deleteCopy(copyId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -139,7 +149,7 @@ export class InventoryModal implements OnInit, OnDestroy {
           this.errorMessage = 'Failed to remove copy. Please try again.';
           this.isLoading = false;
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 

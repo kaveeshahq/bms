@@ -79,7 +79,7 @@ namespace BooksAPI.Services
             // Validate ISBN uniqueness
             var existingTitle = await _context.BookTitles
                 .FirstOrDefaultAsync(bt => bt.ISBN == dto.ISBN);
-            
+
             if (existingTitle != null)
                 throw new InvalidOperationException($"A book with ISBN {dto.ISBN} already exists.");
 

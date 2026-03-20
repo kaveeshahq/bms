@@ -418,7 +418,9 @@
   margin-bottom: 4px;
 }
 
-.full-width { width: 100%; }
+.full-width {
+  width: 100%;
+}
 
 .form-actions {
   display: flex;
@@ -441,11 +443,11 @@
   border-radius: 8px !important;
   padding: 0 24px !important;
   font-weight: 500 !important;
-  box-shadow: 0 4px 12px rgba(21,101,192,0.3) !important;
+  box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3) !important;
 }
 
 .submit-btn:hover {
-  box-shadow: 0 6px 16px rgba(21,101,192,0.4) !important;
+  box-shadow: 0 6px 16px rgba(21, 101, 192, 0.4) !important;
   transform: translateY(-1px);
 }
 
@@ -486,7 +488,9 @@
   margin-bottom: 12px;
 }
 
-.lookup-field { flex: 1; }
+.lookup-field {
+  flex: 1;
+}
 
 .find-btn {
   background: linear-gradient(135deg, #1565c0, #1976d2) !important;
@@ -514,8 +518,12 @@
   height: 40px !important;
 }
 
-.member-icon { color: #1976d2; }
-.book-icon   { color: #15803d; }
+.member-icon {
+  color: #1976d2;
+}
+.book-icon {
+  color: #15803d;
+}
 
 .detail-name {
   font-size: 16px;
@@ -539,7 +547,19 @@
   font-weight: 600;
 }
 
-.badge-active    { background: #dcfce7; color: #15803d; }
-.badge-inactive  { background: #fee2e2; color: #b91c1c; }
-.badge-available { background: #dcfce7; color: #15803d; }
-.badge-issued    { background: #ffedd5; color: #c2410c; }
+.badge-active {
+  background: #dcfce7;
+  color: #15803d;
+}
+.badge-inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.badge-available {
+  background: #dcfce7;
+  color: #15803d;
+}
+.badge-issued {
+  background: #ffedd5;
+  color: #c2410c;
+}

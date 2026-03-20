@@ -24,7 +24,9 @@
           <h3 class="book-title">{{ bookTitle.title }}</h3>
           <p class="book-author">by {{ bookTitle.author }}</p>
           <p class="book-isbn">ISBN: {{ bookTitle.isbn }}</p>
-          <p class="book-category">Category: <span class="category-badge">{{ bookTitle.categoryName }}</span></p>
+          <p class="book-category">
+            Category: <span class="category-badge">{{ bookTitle.categoryName }}</span>
+          </p>
         </div>
       </div>
 
@@ -59,7 +61,7 @@
       <!-- Inventory Stats Section -->
       <div class="inventory-section">
         <h4 class="section-title">Inventory Status</h4>
-        
+
         <div class="inventory-stats">
           <div class="stat-box available">
             <mat-icon>check_circle</mat-icon>
@@ -68,12 +70,14 @@
               <span class="stat-value">{{ bookTitle.availableCopies }}</span>
             </div>
           </div>
-          
+
           <div class="stat-box issued">
             <mat-icon>local_shipping</mat-icon>
             <div>
               <span class="stat-label">Issued</span>
-              <span class="stat-value">{{ bookTitle.totalCopies - bookTitle.availableCopies }}</span>
+              <span class="stat-value">{{
+                bookTitle.totalCopies - bookTitle.availableCopies
+              }}</span>
             </div>
           </div>
         </div>
@@ -94,13 +98,28 @@
 
       <!-- Action Buttons -->
       <div class="detail-actions">
-        <button mat-raised-button color="primary" (click)="openInventoryModal()" matTooltip="Manage physical copies">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openInventoryModal()"
+          matTooltip="Manage physical copies"
+        >
           <mat-icon>inventory_2</mat-icon> Manage Inventory
         </button>
-        <button mat-raised-button color="accent" [routerLink]="['/books/edit', bookTitle.id]" matTooltip="Edit book information">
+        <button
+          mat-raised-button
+          color="accent"
+          [routerLink]="['/books/edit', bookTitle.id]"
+          matTooltip="Edit book information"
+        >
           <mat-icon>edit</mat-icon> Edit Book
         </button>
-        <button mat-raised-button color="warn" (click)="deleteBookTitle()" matTooltip="Delete this book title">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="deleteBookTitle()"
+          matTooltip="Delete this book title"
+        >
           <mat-icon>delete</mat-icon> Delete
         </button>
       </div>

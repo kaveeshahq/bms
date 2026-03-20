@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export type ThemeMode = 'light' | 'dark';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private readonly THEME_KEY = 'app-theme-mode';
@@ -69,7 +69,7 @@ export class ThemeService {
    */
   private applyTheme(theme: ThemeMode): void {
     const htmlElement = document.documentElement;
-    
+
     if (theme === 'dark') {
       htmlElement.classList.add('dark-theme');
       htmlElement.classList.remove('light-theme');

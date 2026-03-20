@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
@@ -34,10 +40,10 @@ import { takeUntil } from 'rxjs/operators';
     MatIconModule,
     MatSelectModule,
     MatTooltipModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   templateUrl: './issue-book.html',
-  styleUrl: './issue-book.css'
+  styleUrl: './issue-book.css',
 })
 export class IssueBook implements OnInit, OnDestroy {
   currentTheme$!: Observable<string>;
@@ -69,7 +75,7 @@ export class IssueBook implements OnInit, OnDestroy {
     private memberService: MemberService,
     private themeService: ThemeService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.currentTheme$ = this.themeService.getTheme$();
   }
@@ -93,7 +99,8 @@ export class IssueBook implements OnInit, OnDestroy {
     this.lookingUpMember = true;
     this.cdr.markForCheck();
 
-    this.memberService.getByMemberId(this.memberIdInput)
+    this.memberService
+      .getByMemberId(this.memberIdInput)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (member) => {
@@ -105,7 +112,7 @@ export class IssueBook implements OnInit, OnDestroy {
           this.memberError = 'Member not found. Check the ID and try again.';
           this.lookingUpMember = false;
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
@@ -123,7 +130,8 @@ export class IssueBook implements OnInit, OnDestroy {
     this.lookingUpBook = true;
     this.cdr.markForCheck();
 
-    this.bookTitleService.getAll(this.bookTitleInput)
+    this.bookTitleService
+      .getAll(this.bookTitleInput)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (titles) => {
@@ -131,15 +139,16 @@ export class IssueBook implements OnInit, OnDestroy {
             this.bookError = 'No books found matching your search.';
           } else {
             this.foundBookTitle = (titles as BookTitle[])[0]; // Auto-select first match
-            
+
             // Get detailed view with all copies
-            this.bookTitleService.getById(titles[0].id)
+            this.bookTitleService
+              .getById(titles[0].id)
               .pipe(takeUntil(this.destroy$))
               .subscribe({
                 next: (fullTitle) => {
                   this.foundBookTitle = fullTitle;
-                  this.availableCopies = fullTitle.copies.filter(c => c.status === 'Available');
-                  
+                  this.availableCopies = fullTitle.copies.filter((c) => c.status === 'Available');
+
                   if (this.availableCopies.length === 0) {
                     this.bookError = 'This book has no available copies.';
                   } else if (this.availableCopies.length === 1) {
@@ -152,7 +161,7 @@ export class IssueBook implements OnInit, OnDestroy {
                   this.bookError = 'Failed to load book details.';
                   this.lookingUpBook = false;
                   this.cdr.markForCheck();
-                }
+                },
               });
           }
           this.lookingUpBook = false;
@@ -162,7 +171,7 @@ export class IssueBook implements OnInit, OnDestroy {
           this.bookError = 'Failed to search for books.';
           this.lookingUpBook = false;
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
@@ -188,12 +197,14 @@ export class IssueBook implements OnInit, OnDestroy {
     this.isSubmitting = true;
     this.cdr.markForCheck();
 
-    this.borrowingService.issue({
-      bookTitleId: this.foundBookTitle.id,
-      memberId: this.foundMember.id,
-      copyNumber: this.selectedCopyNumber ?? undefined,
-      dueDays: this.dueDays
-    }).pipe(takeUntil(this.destroy$))
+    this.borrowingService
+      .issue({
+        bookTitleId: this.foundBookTitle.id,
+        memberId: this.foundMember.id,
+        copyNumber: this.selectedCopyNumber ?? undefined,
+        dueDays: this.dueDays,
+      })
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.successMessage = 'Book issued successfully!';
@@ -203,7 +214,7 @@ export class IssueBook implements OnInit, OnDestroy {
           this.errorMessage = err.error?.message || 'Failed to issue book. Please try again.';
           this.isSubmitting = false;
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
@@ -212,8 +223,8 @@ export class IssueBook implements OnInit, OnDestroy {
       this.foundMember &&
       this.foundBookTitle &&
       this.availableCopies.length > 0 &&
-      (this.selectedCopyNumber !== null) &&
-      !this.isSubmitting
+      this.selectedCopyNumber !== null &&
+      !this.isSubmitting,
     );
   }
 }

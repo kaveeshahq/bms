@@ -9,14 +9,14 @@ namespace BooksAPI.Models
     public class BookCopy
     {
         public int Id { get; set; }
-        
+
         // Copy identification
         public int CopyNumber { get; set; } // e.g., Copy 1, 2, 3 of the same title
         public string? BarcodeId { get; set; } // Optional barcode for scanning
-        
+
         // Status tracking
         public BookCopyStatus Status { get; set; } = BookCopyStatus.Available;
-        
+
         // Timestamps
         public DateTime AcquiredAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }

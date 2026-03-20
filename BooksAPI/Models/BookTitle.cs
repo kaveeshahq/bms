@@ -12,10 +12,10 @@ namespace BooksAPI.Models
         public string ISBN { get; set; } = string.Empty; // Unique per title
         public string? Publisher { get; set; }
         public int? PublishedYear { get; set; }
-        
+
         // Inventory tracking
         public int TotalCopies { get; set; } = 0; // Total copies in library
-        
+
         // Database tracking
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }

@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -26,10 +32,10 @@ import { takeUntil } from 'rxjs/operators';
     MatIconModule,
     MatDialogModule,
     MatTooltipModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   templateUrl: './book-detail.html',
-  styleUrl: './book-detail.css'
+  styleUrl: './book-detail.css',
 })
 export class BookDetail implements OnInit, OnDestroy {
   bookTitle: BookTitle | null = null;
@@ -43,7 +49,7 @@ export class BookDetail implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.currentTheme$ = this.themeService.getTheme$();
   }
@@ -62,7 +68,8 @@ export class BookDetail implements OnInit, OnDestroy {
     this.isLoading = true;
     this.cdr.markForCheck();
 
-    this.bookTitleService.getById(id)
+    this.bookTitleService
+      .getById(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
@@ -74,17 +81,23 @@ export class BookDetail implements OnInit, OnDestroy {
           console.error('Error loading book title', err);
           this.isLoading = false;
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
   deleteBookTitle() {
-    if (this.bookTitle && confirm('Are you sure you want to delete this book title?\nAll copies will be deleted as well.')) {
-      this.bookTitleService.delete(this.bookTitle.id)
+    if (
+      this.bookTitle &&
+      confirm(
+        'Are you sure you want to delete this book title?\nAll copies will be deleted as well.',
+      )
+    ) {
+      this.bookTitleService
+        .delete(this.bookTitle.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => this.router.navigate(['/books']),
-          error: (err) => console.error('Error deleting book title', err)
+          error: (err) => console.error('Error deleting book title', err),
         });
     }
   }
@@ -97,13 +110,14 @@ export class BookDetail implements OnInit, OnDestroy {
       maxWidth: '90vw',
       data: { bookTitle: this.bookTitle },
       panelClass: 'inventory-modal-panel',
-      autoFocus: false
+      autoFocus: false,
     });
 
     // Scroll to top when modal opens to ensure it's visible
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(takeUntil(this.destroy$))
       .subscribe((result) => {
         if (result) {

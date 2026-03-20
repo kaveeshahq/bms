@@ -36,19 +36,30 @@
       <div class="stat-card">
         <mat-icon>local_shipping</mat-icon>
         <span class="stat-label">Issued</span>
-        <span class="stat-value issued">{{ bookTitle.totalCopies - bookTitle.availableCopies }}</span>
+        <span class="stat-value issued">{{
+          bookTitle.totalCopies - bookTitle.availableCopies
+        }}</span>
       </div>
     </div>
 
     <!-- Copies List -->
     <div class="copies-section">
       <h3 class="section-title">Physical Copies</h3>
-      
-      <div *ngIf="bookTitle.copies && bookTitle.copies.length > 0; else noCopies" class="copies-list">
-        <div class="copy-card" *ngFor="let copy of bookTitle.copies" [ngClass]="getStatusColor(copy.status)">
+
+      <div
+        *ngIf="bookTitle.copies && bookTitle.copies.length > 0; else noCopies"
+        class="copies-list"
+      >
+        <div
+          class="copy-card"
+          *ngFor="let copy of bookTitle.copies"
+          [ngClass]="getStatusColor(copy.status)"
+        >
           <div class="copy-header">
             <span class="copy-number">Copy {{ copy.copyNumber }}</span>
-            <mat-icon class="status-icon" [matTooltip]="copy.status">{{ getStatusIcon(copy.status) }}</mat-icon>
+            <mat-icon class="status-icon" [matTooltip]="copy.status">{{
+              getStatusIcon(copy.status)
+            }}</mat-icon>
           </div>
 
           <div class="copy-details">
@@ -67,11 +78,13 @@
           </div>
 
           <div class="copy-actions">
-            <button mat-icon-button 
-                    color="warn"
-                    (click)="removeCopy(copy.id)"
-                    matTooltip="Remove Copy"
-                    [disabled]="isLoading">
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="removeCopy(copy.id)"
+              matTooltip="Remove Copy"
+              [disabled]="isLoading"
+            >
               <mat-icon>delete_outline</mat-icon>
             </button>
           </div>
@@ -88,7 +101,12 @@
       <h3 class="section-title">Add New Copy</h3>
 
       <div *ngIf="!isAddingCopy" class="add-copy-prompt">
-        <button mat-raised-button color="primary" (click)="isAddingCopy = true" [disabled]="isLoading">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="isAddingCopy = true"
+          [disabled]="isLoading"
+        >
           <mat-icon>add_circle</mat-icon> Add Copy to Library
         </button>
       </div>
@@ -99,18 +117,32 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Barcode ID (Optional)</mat-label>
           <mat-icon matPrefix>qr_code</mat-icon>
-          <input matInput [(ngModel)]="newBarcodeId" 
-                 name="barcodeId"
-                 placeholder="e.g. 978-0-7432-7356-5-001"
-                 [disabled]="isLoading" />
+          <input
+            matInput
+            [(ngModel)]="newBarcodeId"
+            name="barcodeId"
+            placeholder="e.g. 978-0-7432-7356-5-001"
+            [disabled]="isLoading"
+          />
           <mat-hint>Leave blank to auto-generate</mat-hint>
         </mat-form-field>
 
         <div class="form-actions">
-          <button mat-stroked-button type="button" (click)="isAddingCopy = false" [disabled]="isLoading">
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="isAddingCopy = false"
+            [disabled]="isLoading"
+          >
             Cancel
           </button>
-          <button mat-raised-button color="success" type="button" (click)="addCopy()" [disabled]="isLoading">
+          <button
+            mat-raised-button
+            color="success"
+            type="button"
+            (click)="addCopy()"
+            [disabled]="isLoading"
+          >
             <mat-icon>check</mat-icon> Add Copy
           </button>
         </div>
@@ -120,8 +152,6 @@
 
   <!-- Modal Footer -->
   <div class="modal-footer">
-    <button mat-stroked-button (click)="closeModal()">
-      Close
-    </button>
+    <button mat-stroked-button (click)="closeModal()">Close</button>
   </div>
 </div>

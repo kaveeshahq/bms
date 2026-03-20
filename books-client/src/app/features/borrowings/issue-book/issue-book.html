@@ -14,7 +14,6 @@
   <mat-card class="form-card">
     <mat-card-content>
       <form (ngSubmit)="onSubmit()">
-
         <!-- Messages -->
         <div class="message-box success-message" *ngIf="successMessage">
           <mat-icon>check_circle</mat-icon>
@@ -35,16 +34,22 @@
             <mat-form-field appearance="outline" class="lookup-field">
               <mat-label>Member ID *</mat-label>
               <mat-icon matPrefix>person_search</mat-icon>
-              <input matInput [(ngModel)]="memberIdInput"
-                     name="memberIdInput"
-                     placeholder="e.g. 100001"
-                     maxlength="6"
-                     [disabled]="lookingUpMember" />
+              <input
+                matInput
+                [(ngModel)]="memberIdInput"
+                name="memberIdInput"
+                placeholder="e.g. 100001"
+                maxlength="6"
+                [disabled]="lookingUpMember"
+              />
             </mat-form-field>
-            <button mat-raised-button color="primary"
-                    type="button"
-                    (click)="lookupMember()"
-                    [disabled]="lookingUpMember || !memberIdInput.trim()">
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="lookupMember()"
+              [disabled]="lookingUpMember || !memberIdInput.trim()"
+            >
               <mat-icon *ngIf="!lookingUpMember">search</mat-icon>
               <span>{{ lookingUpMember ? 'Searching...' : 'Find Member' }}</span>
             </button>
@@ -62,7 +67,10 @@
               <p class="detail-name">{{ foundMember.fullName }}</p>
               <p class="detail-sub">{{ foundMember.email }}</p>
               <p class="detail-sub">{{ foundMember.phone }}</p>
-              <span class="status-badge" [ngClass]="foundMember.isActive ? 'badge-active' : 'badge-inactive'">
+              <span
+                class="status-badge"
+                [ngClass]="foundMember.isActive ? 'badge-active' : 'badge-inactive'"
+              >
                 {{ foundMember.isActive ? 'Active Member' : 'Inactive' }}
               </span>
             </div>
@@ -84,15 +92,21 @@
             <mat-form-field appearance="outline" class="lookup-field">
               <mat-label>Search Book *</mat-label>
               <mat-icon matPrefix>library_books</mat-icon>
-              <input matInput [(ngModel)]="bookTitleInput"
-                     name="bookTitleInput"
-                     placeholder="e.g. The Great Gatsby or ISBN"
-                     [disabled]="lookingUpBook" />
+              <input
+                matInput
+                [(ngModel)]="bookTitleInput"
+                name="bookTitleInput"
+                placeholder="e.g. The Great Gatsby or ISBN"
+                [disabled]="lookingUpBook"
+              />
             </mat-form-field>
-            <button mat-raised-button color="primary"
-                    type="button"
-                    (click)="lookupBookTitle()"
-                    [disabled]="lookingUpBook || !bookTitleInput.trim()">
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="lookupBookTitle()"
+              [disabled]="lookingUpBook || !bookTitleInput.trim()"
+            >
               <mat-icon *ngIf="!lookingUpBook">search</mat-icon>
               <span>{{ lookingUpBook ? 'Searching...' : 'Search' }}</span>
             </button>
@@ -130,9 +144,16 @@
         <!-- Step 3: Copy Selection (if available) -->
         <div class="form-section" *ngIf="foundBookTitle && availableCopies.length > 0">
           <h3 class="section-title">Step 3 — Select Copy</h3>
-          <p class="section-subtitle">{{ availableCopies.length }} {{ availableCopies.length === 1 ? 'copy' : 'copies' }} available</p>
+          <p class="section-subtitle">
+            {{ availableCopies.length }}
+            {{ availableCopies.length === 1 ? 'copy' : 'copies' }} available
+          </p>
 
-          <mat-form-field appearance="outline" class="full-width" *ngIf="availableCopies.length > 1">
+          <mat-form-field
+            appearance="outline"
+            class="full-width"
+            *ngIf="availableCopies.length > 1"
+          >
             <mat-label>Select Copy *</mat-label>
             <mat-select [(ngModel)]="selectedCopyNumber" name="selectedCopyNumber" required>
               <mat-option *ngFor="let copy of availableCopies" [value]="copy.copyNumber">
@@ -156,28 +177,27 @@
 
           <mat-form-field appearance="outline" class="due-days-field">
             <mat-label>Due Days *</mat-label>
-            <input matInput type="number"
-                   [(ngModel)]="dueDays"
-                   name="dueDays" required
-                   min="1"
-                   max="365" />
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="dueDays"
+              name="dueDays"
+              required
+              min="1"
+              max="365"
+            />
             <mat-hint>Number of days (default 14)</mat-hint>
           </mat-form-field>
         </div>
 
         <!-- Form Actions -->
         <div class="form-actions">
-          <button mat-stroked-button type="button" routerLink="/borrowings">
-            Cancel
-          </button>
-          <button mat-raised-button color="primary"
-                  type="submit"
-                  [disabled]="!canSubmit()">
+          <button mat-stroked-button type="button" routerLink="/borrowings">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!canSubmit()">
             <mat-icon *ngIf="!isSubmitting">check</mat-icon>
             <span>{{ isSubmitting ? 'Issuing...' : 'Issue Book' }}</span>
           </button>
         </div>
-
       </form>
     </mat-card-content>
   </mat-card>

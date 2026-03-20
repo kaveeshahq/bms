@@ -12,14 +12,14 @@ namespace BooksAPI.Data
         // New entities (replacing old Book model)
         public DbSet<BookTitle> BookTitles => Set<BookTitle>();
         public DbSet<BookCopy> BookCopies => Set<BookCopy>();
-        
+
         // Supporting entities
         public DbSet<Member> Members => Set<Member>();
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Borrowing> Borrowings => Set<Borrowing>();
         public DbSet<Fine> Fines => Set<Fine>();
         public DbSet<Reservation> Reservations => Set<Reservation>();
-        
+
         // Legacy (deprecated - kept for migration reference)
         public DbSet<Book> Books => Set<Book>();
 
