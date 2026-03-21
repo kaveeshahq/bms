@@ -52,8 +52,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
         policy.WithOrigins(
-            "http://localhost:4200",           
-            "https://elibrary-system-bms.vercel.app" 
+            "http://localhost:4200",
+            "https://elibrary-system-bms.vercel.app"
         )
         .AllowAnyHeader()
         .AllowAnyMethod());
@@ -70,8 +70,8 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
-    
-    // Seed categories if they don't exist
+
+    // Seed categories if they don't exist (for all environments)
     if (!db.Categories.Any())
     {
         var categories = new[]
@@ -94,6 +94,30 @@ using (var scope = app.Services.CreateScope())
         };
         db.Categories.AddRange(categories);
         db.SaveChanges();
+    }
+
+    // Seed test user ONLY in Development environment
+    if (app.Environment.IsDevelopment())
+    {
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var testUserEmail = "testuser@library.com";
+        var testUserPassword = "TestPassword123!";
+
+        if (await userManager.FindByEmailAsync(testUserEmail) == null)
+        {
+            var user = new IdentityUser { UserName = testUserEmail, Email = testUserEmail };
+            var result = await userManager.CreateAsync(user, testUserPassword);
+            if (result.Succeeded)
+            {
+                // Assign Librarian role
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                if (!await roleManager.RoleExistsAsync("Librarian"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Librarian"));
+                }
+                await userManager.AddToRoleAsync(user, "Librarian");
+            }
+        }
     }
 }
 
