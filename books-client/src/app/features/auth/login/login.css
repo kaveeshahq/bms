@@ -35,7 +35,67 @@ mat-card-title {
 }
 
 .error-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: #e53935;
   font-size: 14px;
   margin-bottom: 12px;
+  padding: 10px 12px;
+  background-color: #ffebee;
+  border-radius: 4px;
+}
+
+.error-msg mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.success-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #43a047;
+  font-size: 14px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background-color: #e8f5e9;
+  border-radius: 4px;
+}
+
+.success-msg mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.toggle-link {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 16px;
+}
+
+.toggle-link button {
+  margin-left: 4px;
+  text-transform: none !important;
+  font-weight: 500 !important;
+  padding: 0 !important;
+  min-width: auto !important;
+}
+
+form {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

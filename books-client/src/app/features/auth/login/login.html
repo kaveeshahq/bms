@@ -1,14 +1,25 @@
 <div class="login-wrapper">
   <mat-card class="login-card">
 
+    <!-- Header -->
     <mat-card-header>
       <mat-card-title>📚 Library Management</mat-card-title>
-      <mat-card-subtitle>Sign in to your account</mat-card-subtitle>
+      <mat-card-subtitle>{{ isRegisterMode ? 'Create your account' : 'Sign in to your account' }}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-      <form (ngSubmit)="onLogin()">
+      <!-- Error Message -->
+      <p class="error-msg" *ngIf="errorMessage">
+        <mat-icon>error</mat-icon> {{ errorMessage }}
+      </p>
 
+      <!-- Success Message -->
+      <p class="success-msg" *ngIf="successMessage">
+        <mat-icon>check_circle</mat-icon> {{ successMessage }}
+      </p>
+
+      <!-- Login Form -->
+      <form *ngIf="!isRegisterMode" (ngSubmit)="onLogin()">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
           <input matInput type="email" [(ngModel)]="email" name="email" required />
@@ -25,14 +36,60 @@
           </button>
         </mat-form-field>
 
-        <p class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</p>
-
-        <button mat-raised-button color="primary"
-                type="submit" class="full-width login-btn">
+        <button mat-raised-button color="primary" type="submit" class="full-width login-btn">
           Sign In
         </button>
-
       </form>
+
+      <!-- Register Form -->
+      <form *ngIf="isRegisterMode" (ngSubmit)="onRegister()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" required />
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'"
+                 [(ngModel)]="password" name="password" required />
+          <button mat-icon-button matSuffix type="button"
+                  (click)="hidePassword = !hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'"
+                 [(ngModel)]="confirmPassword" name="confirmPassword" required />
+          <button mat-icon-button matSuffix type="button"
+                  (click)="hideConfirmPassword = !hideConfirmPassword">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Role</mat-label>
+          <select matNativeControl [(ngModel)]="role" name="role" required>
+            <option value="Member">Member</option>
+            <option value="Librarian">Librarian</option>
+          </select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="full-width login-btn"
+                [disabled]="isLoading">
+          {{ isLoading ? 'Creating account...' : 'Create Account' }}
+        </button>
+      </form>
+
+      <!-- Toggle Link -->
+      <p class="toggle-link">
+        {{ isRegisterMode ? 'Already have an account?' : "Don't have an account?" }}
+        <button type="button" mat-button color="primary" (click)="toggleAuthMode()">
+          {{ isRegisterMode ? 'Sign In' : 'Register' }}
+        </button>
+      </p>
     </mat-card-content>
 
   </mat-card>
