@@ -67,8 +67,10 @@ export class Login {
       return;
     }
 
-    if (this.password.length < 6) {
-      this.errorMessage = 'Password must be at least 6 characters.';
+    // Validate password strength
+    const passwordError = this.validatePassword(this.password);
+    if (passwordError) {
+      this.errorMessage = passwordError;
       return;
     }
 
@@ -92,6 +94,25 @@ export class Login {
         this.errorMessage = err.error?.message || 'Registration failed. Try a different email.';
       }
     });
+  }
+
+  private validatePassword(password: string): string {
+    if (password.length < 6) {
+      return 'Password must be at least 6 characters.';
+    }
+    if (!/[A-Z]/.test(password)) {
+      return 'Password must contain at least one uppercase letter.';
+    }
+    if (!/[a-z]/.test(password)) {
+      return 'Password must contain at least one lowercase letter.';
+    }
+    if (!/[0-9]/.test(password)) {
+      return 'Password must contain at least one number.';
+    }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+      return 'Password must contain at least one special character (!@#$%^&*).';
+    }
+    return '';
   }
 
   toggleAuthMode() {
