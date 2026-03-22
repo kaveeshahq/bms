@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BooksAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260322103555_RefactorBooksToBookTitlesAndCopies")]
-    partial class RefactorBooksToBookTitlesAndCopies
+    [Migration("20260322105737_CreateNewSchema")]
+    partial class CreateNewSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
