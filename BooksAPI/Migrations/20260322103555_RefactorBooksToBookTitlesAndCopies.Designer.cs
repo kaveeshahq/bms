@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BooksAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260319115419_RefactorBooksToBookTitlesAndCopies")]
+    [Migration("20260322103555_RefactorBooksToBookTitlesAndCopies")]
     partial class RefactorBooksToBookTitlesAndCopies
     {
         /// <inheritdoc />
