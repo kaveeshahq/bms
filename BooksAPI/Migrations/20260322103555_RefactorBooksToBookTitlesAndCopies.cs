@@ -8,9 +8,8 @@ namespace BooksAPI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Clear orphan rows that have BookCopyId = 0 (no matching BookCopy)
-            migrationBuilder.Sql(@"DELETE FROM ""Borrowings"" WHERE ""BookCopyId"" = 0;");
-            migrationBuilder.Sql(@"DELETE FROM ""Reservations"" WHERE ""BookTitleId"" = 0;");
+            // No changes needed for now - just a placeholder migration
+            // Full schema refactoring from Books to BookTitles/BookCopies pending
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
